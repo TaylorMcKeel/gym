@@ -2,9 +2,10 @@ const express = require('express')
 const dotenv = require('dotenv')
 const bodyParser = require('body-parser')
 const connectDB = require('./config/db')
+const user = require('./routes/user')
 
 //gives access to config variables
-dotenv.config({path:' ./config/config.env'})
+dotenv.config({path:'./config/config.env'})
 
 //connects to db must happen before you invoke express
 connectDB()
@@ -15,6 +16,9 @@ const app = express()
 
 //converts json data into readable object
 app.use(bodyParser.json())
+
+
+app.use('/user', user)
 
 //grabs port from config or makes it 5001
 const PORT = process.env.PORT || 5001

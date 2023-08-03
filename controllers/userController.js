@@ -6,7 +6,7 @@ const getUsers = async(req,res,next)=>{
   const options = {}
 
 
-  // /category endpoint
+  // /user endpoint
   if(Object.keys(req.params).length){
     const{ //pulls any potential queries
       userName,
