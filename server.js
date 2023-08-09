@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const connectDB = require('./config/db')
 const user = require('./routes/user')
 const workout = require('./routes/workout')
+const exercise = require('./routes/exercise')
 
 //gives access to config variables
 dotenv.config({path:'./config/config.env'})
@@ -21,6 +22,7 @@ app.use(bodyParser.json())
 
 app.use('/user', user)
 app.use('/workout', workout)
+app.use('/exercise',exercise)
 
 //grabs port from config or makes it 5001
 const PORT = process.env.PORT || 5001
