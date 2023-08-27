@@ -1,17 +1,17 @@
 import React, {Component} from 'react'
-import {Route, Switch, Redirect} from 'react-router-dom'
+import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import { Exercises, Workouts, Home} from './components'
 
-export class Routes extends Component{
+export class Router extends Component{
   render(){
     return(
-      <div>
-        {/* <Route path='/workouts' component ={Exercises}/>
-        <Route path='/exercises' component ={Workouts}/> */}
-        <Route path='/' component ={Home}/> 
-      </div>
+      <Routes>
+        <Route exact path='/' element={<Home/>} />
+        <Route path='/workouts' element={<Workouts />} />
+        <Route path='/exercises' element={<Exercises/>} />
+      </Routes>
     )
   }
 }
 
-export default (Routes)
+export default (Router)

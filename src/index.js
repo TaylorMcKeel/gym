@@ -1,28 +1,28 @@
 import React from 'react'
 import { createRoot} from 'react-dom/client'
+import {Router} from './Routes'
+import {NavBar} from './components'
+import {BrowserRouter} from 'react-router-dom'
 
-//to build... store... router
-// import {HashRouter} from 'react-router-dom'
-// import { Provider, connect} from 'react-redux'
-// import store from './store/index'
-// import {Routes} from './Routes'
-// import {NavBar} from './components/Navbar'
-
-class _App extends React.Component{
+class App extends React.Component{
   constructor(){
     super()
   }
   render(){
     return (
-      <div>Successfully connected React App</div>
+      <BrowserRouter>
+        <div>
+          <NavBar/>
+          <Router />
+        </div>
+      </BrowserRouter>
     )
   }
 }
 
 const element = document.getElementById('root')
 const root = createRoot(element)
-// const App = connect()(_App)
 
 root.render(
-  <_App/>
+  <App/>
 )
