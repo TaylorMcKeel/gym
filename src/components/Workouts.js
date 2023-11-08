@@ -1,4 +1,6 @@
 import React, {Component} from 'react'
+import { Link } from 'react-router-dom'
+
 import axios from 'axios'
 
 export class Workouts extends Component{
@@ -21,6 +23,7 @@ export class Workouts extends Component{
     return(
       <div>
         <h1>Your Workouts</h1>
+        <Link to='/newWorkout'>Add New Workout</Link>
         <ul>
           {workouts.map((workout)=>{
             return(
