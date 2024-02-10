@@ -1,41 +1,75 @@
-import React, {Component} from 'react'
-import { Link } from 'react-router-dom'
-import axios from 'axios'
+import React, {useState, useEffect} from 'react'
+import {useNavigate} from "react-router-dom"
+import axios from "axios"
 
-export class Exercises extends Component{
-  constructor(){
-    super()
-    this.state = {
-      workouts:[],
-      exercises: []
+const Exercises = ()=>{
+  const navigate = useNavigate()
+  const [workouts, setWorkouts] = useState([])
+  const [exercises, setExercises] = useState([])
+
+  useEffect(()=>{
+    const getExercises = async ()=>{
+      try {
+        await axios.get('/api/exercise')
+          .then(res => setExercises(res.data))
+      } catch (err) {
+        console.log(err)
+      }
+     
     }
+
+    const getWorkouts = async()=>{
+      try {
+        axios.get('/api/workout')
+          .then(res => setWorkouts(res.data))
+      } catch (err) {
+        console.log(err)
+      }
+    }
+
+    getExercises()
+    getWorkouts()
+  },[])
+  
+  const navigateWorkout = (workoutId)=>{
+    navigate(`/workouts/`)
   }
 
-  async componentDidMount(){
-    await axios.get('/api/exercise')
-      .then(res => this.setState({exercises: res.data}))
+  const navigateStats = (exerciseId) =>{
+    navigate(`/exercises/`)
   }
-  render(){
-    const {workouts, exercises} = this.state
-    console.log(this.state.exercises[0])
-    return(
-      <div>
-        <h1>Your Exercises</h1>
-        <Link to='/newExercise'>Add New Exercise</Link>
-        <ul>
-          {exercises.map(curr=>{
-            return(
-              <li>
-                <h3>Title: {curr.title}</h3>
-                <p>Category: {curr.category}</p>
-                <Link to='/exercises/'>See Stats</Link>       
-              </li> //add functionality to open to exercise page with stats.
-            )
-          })}
-        </ul>
-      </div>
-    )
+
+  const navigateExerciseForm = ()=>{
+    navigate(`/newExercise`)
   }
+
+  return(
+    <div>
+      <h1>Your Exercises</h1>
+      <button onClick={navigateExerciseForm}>Add New Exercise</button>
+      <ul>
+        {exercises.map(curr=>{
+          let currWorkout 
+          workouts.map((item)=>{
+            if(item._id === curr.workout){
+              currWorkout = item
+            }
+          })
+          console.log(currWorkout)
+          return(
+            <li>
+              <h3>Title: {curr.title}</h3>
+              <p>Category: {curr.category}</p>
+              <p>Workout: <button onClick={navigateWorkout(curr.workout)}>{currWorkout.title}</button></p>
+              <button onClick={navigateStats(curr.id)}>See Stats</button>       
+            </li> //add functionality to open to exercise page with stats.
+          )
+        })}
+      </ul>
+    </div>
+  )
 }
 
-export default (Exercises)
+
+
+export default Exercises

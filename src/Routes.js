@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {BrowserRouter, Route, Routes} from 'react-router-dom'
+import {Route, Routes} from 'react-router-dom'
 import { Exercises, Workouts, Home, WorkoutForm, ExerciseForm} from './components'
 
 export class Router extends Component{

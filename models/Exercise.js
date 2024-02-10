@@ -16,6 +16,9 @@ const StatSchema = new Schema({
   date:{
     type: Date,
     required: true
+  },
+  notes:{
+    type: String,
   }
 },{
   timestamps: true
