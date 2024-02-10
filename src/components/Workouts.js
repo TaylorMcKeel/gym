@@ -35,10 +35,8 @@ const Workouts = ()=>{
     navigate(`/workouts/`)
   }
   const navigateNewWorkout=()=>{
-    navigate('/workoutForm')
+    navigate('/newWorkout')
   }
-
-  console.log(workouts)
   return(
     <div>
       <h1>Your Workouts</h1>
@@ -49,7 +47,7 @@ const Workouts = ()=>{
             <li key={workout._id}>
               <h3>Title: {workout.title}</h3>
               <p>Duration: {workout.duration}</p>
-              <button onClick = {navigateWorkout(workout._id)}>See More</button>
+              <button onClick = {()=>navigateWorkout(workout._id)}>See More</button>
             </li>
           )
         })}

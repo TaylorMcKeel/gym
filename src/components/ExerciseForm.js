@@ -7,7 +7,7 @@ const ExerciseForm = ()=>{
   const [exerciseTitle, setExerciseTitle]= useState("")
   const [category, setCategory] = useState("")
   const [workout, setWorkout]= useState("")
-  const [allWorkouts, setAllWorkouts] = useSate({})
+  const [allWorkouts, setAllWorkouts] = useState([])
 
   useEffect(()=>{
     const getWorkouts = async()=>{
@@ -21,12 +21,25 @@ const ExerciseForm = ()=>{
     getWorkouts()
   },[])
   
+  const addExercise = async()=>{
+    try {
+      axios.post('/api/exercise',{
+        "title": exerciseTitle,
+        "category": category,
+        "workout": workout,
+      })
+    } catch (err) {
+      console.log(err)
+    }
+    navigate('/exercises')
+  }
+  console.log(allWorkouts)
   return(
     <div>
       <h1>Add a New Exercise</h1>
       <form>
         <label for="exerciseTitle" >Exercise Title:</label>
-        <input  type="text" id='exerciseTitle' name='exerciseTitle' onChange={(ev)=>{this.setState({title: ev.target.value})}}/>
+        <input  type="text" id='exerciseTitle' name='exerciseTitle' onChange={(ev)=>setExerciseTitle(ev.target.value)}/>
         <label for="category">Category:</label>
         <select id='category' name='category' onChange={(ev)=>{setCategory(ev.target.value)}}>
           <option value=''>Select One</option>
@@ -39,14 +52,14 @@ const ExerciseForm = ()=>{
         <label for='workout'>Workout:</label>
         <select id='workout' name='workout' onChange={(ev)=>{setWorkout(ev.target.value)}}>
           <option value=''>Select One</option>
-          {workouts.map(workout=>{
+          {allWorkouts.map(workout=>{
             return(
-              <option value={workout.id}>{workout.title}</option>
+              <option value={workout._id}>{workout.title}</option>
             )
           })}
         </select>
       </form> 
-      <button>Submit</button>
+      <button onClick={addExercise}>Submit</button>
     </div>
   )
 }
