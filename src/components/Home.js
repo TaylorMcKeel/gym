@@ -16,7 +16,7 @@ const Home = ()=>{
 //To-Do: find out how to login and get user after logging in... where does userID live
     const getUser = async()=>{
       try {
-        const res = await axios.get('/api/user')
+        const res = await axios.get('/api/user/64ce31438df1e2b147f43193')
         setHomeData(homeData=>({
           ...homeData,
           user: res.data,

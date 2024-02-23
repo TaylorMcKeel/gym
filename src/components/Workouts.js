@@ -53,7 +53,7 @@ const Workouts = ()=>{
       <h1>Your Workouts</h1>
       <button onClick={navigateNewWorkout}>Add New Workout</button>
       <ul>
-        {workouts.map((workout)=>{
+        {workoutsData.workouts.map((workout)=>{
           return(
             <li key={workout._id}>
               <h3>Title: {workout.title}</h3>

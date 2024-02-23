@@ -4,14 +4,21 @@ import axios from "axios"
 
 const Exercises = ()=>{
   const navigate = useNavigate()
-  const [workouts, setWorkouts] = useState([])
-  const [exercises, setExercises] = useState([])
+  const initialExercisesData = {
+    workouts: [],
+    exercises: []
+  }
+
+  const [exercisesData, setExercisesData] = useState(initialExercisesData)
 
   useEffect(()=>{
     const getExercises = async ()=>{
       try {
         const res = await axios.get('/api/exercise')
-        setExercises(res.data)
+        setExercisesData((exercisesData)=>({
+          ...exercisesData,
+          exercises: res.data
+        }))
       } catch (err) {
         const errorMessage = `getExercises :: Exercises.js - Error when fetching all exercises from backend API. Error: ${err}.`
         console.log(errorMessage)
@@ -22,7 +29,10 @@ const Exercises = ()=>{
     const getWorkouts = async()=>{
       try {
         const res = await axios.get('/api/workout')
-        setWorkouts(res.data)
+        setExercisesData((exercisesData)=>({
+          ...exercisesData,
+          workouts: res.data
+        }))
       } catch (err) {
         const errorMessage = `getWorkouts :: Exercises.js - Error when fetching all workouts from backend API. Error: ${err}.`
         console.log(errorMessage)
@@ -50,9 +60,9 @@ const Exercises = ()=>{
       <h1>Your Exercises</h1>
       <button onClick={navigateExerciseForm}>Add New Exercise</button>
       <ul>
-        {exercises.map(curr=>{
+        {exercisesData.exercises.map(curr=>{
           let currWorkout 
-          workouts.map((item)=>{
+          exercisesData.workouts.map((item)=>{
             if(item._id === curr.workout){
               currWorkout = item
             }

@@ -68,7 +68,7 @@ const ExerciseForm = ()=>{
         <label for='workout'>Workout:</label>
         <select id='workout' name='workout' onChange={handleChange}>
           <option value=''>Select One</option>
-          {allWorkouts.map(workout=>{
+          {exerciseData.allWorkouts.map(workout=>{
             return(
               <option value={workout._id}>{workout.title}</option>
             )
