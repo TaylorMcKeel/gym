@@ -10,20 +10,22 @@ const Exercises = ()=>{
   useEffect(()=>{
     const getExercises = async ()=>{
       try {
-        await axios.get('/api/exercise')
-          .then(res => setExercises(res.data))
+        const res = await axios.get('/api/exercise')
+        setExercises(res.data)
       } catch (err) {
-        console.log(err)
+        const errorMessage = `getExercises :: Exercises.js - Error when fetching all exercises from backend API. Error: ${err}.`
+        console.log(errorMessage)
       }
      
     }
 
     const getWorkouts = async()=>{
       try {
-        axios.get('/api/workout')
-          .then(res => setWorkouts(res.data))
+        const res = axios.get('/api/workout')
+        setWorkouts(res.data)
       } catch (err) {
-        console.log(err)
+        const errorMessage = `getWorkouts :: Exercises.js - Error when fetching all workouts from backend API. Error: ${err}.`
+        console.log(errorMessage)
       }
     }
 
@@ -55,7 +57,7 @@ const Exercises = ()=>{
               currWorkout = item
             }
           })
-          console.log(curr)
+      
           return(
             <li >
               <h3>Title: {curr.title}</h3>

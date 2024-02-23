@@ -4,15 +4,27 @@ import axios from "axios"
 
 const Home = ()=>{
   const navigate = useNavigate()
-  const [isLoggedIn, setIsLoggedIn] = useState(true)
-  const [user, setUser] = useState({})
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
+  const initialHomeData = {
+    isLoggedIn: true,
+    user: {},
+    username: "",
+    password: "",
+  }
+  const [homeData, setHomeData] = useState(initialHomeData)
+ 
   useEffect(()=>{
 //To-Do: find out how to login and get user after logging in... where does userID live
     const getUser = async()=>{
-      axios.get('/api/user')
-        .then(res=> setUser(res.data[0]))
+      try {
+        const res = axios.get('/api/user')
+        setHomeData(homeData=>({
+          ...homeData,
+          user: res.data,
+        }))
+      } catch (err) {
+        const errorMessage = `getUser :: Home.js - Error when fetching user from backend API. Error: ${err}.`
+        console.log(errorMessage)
+      }
     }
 
     getUser()
@@ -29,16 +41,22 @@ const Home = ()=>{
   const navigateExercises =()=>{
     navigate(`/exercises/`)
   }
-
+  const handleChange = (ev)=>{
+    const {name, value} = ev.target
+    setHomeData(homeData => ({
+      ...homeData,
+      [name]: value,
+    }))
+  }
   if(!isLoggedIn){
     return(
       <div>
         <h1>Welcome Please Login</h1>
         <form>
           <label for="username" >Username:</label>
-          <input  type="text" id='username' name='username' onChange={(ev)=>{setUsername(ev.target.value)}}/>
+          <input  type="text" id='username' name='username' onChange={handleChange}/>
           <label for="password" >Password:</label>
-          <input  type="text" id='password' name='password' onChange={(ev)=>{setPassword(ev.target.value)}}/>
+          <input  type="text" id='password' name='password' onChange={handleChange}/>
         </form> 
         <button onClick={userLogin}>Login</button>
       </div>

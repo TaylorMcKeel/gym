@@ -4,26 +4,37 @@ import axios from "axios"
 
 
 const Workouts = ()=>{
-  const [workouts, setWorkouts] = useState([])
-  const [exercises, setExercises] = useState([])
+  const initialWorkoutsData = {
+    workouts: [],
+    exercises: [],
+  }
+  const [workoutsData, setWorkoutsData] = useState(initialWorkoutsData)
   const navigate = useNavigate()
 
   useEffect(()=>{
     const getWorkouts = async()=>{
       try {
-        axios.get('/api/workout')
-          .then(res => setWorkouts(res.data))
+        const res = axios.get('/api/workout')
+        setWorkoutsData(workoutsData=>({
+          ...workoutsData,
+          workouts: res.data,
+        }))
       } catch (err) {
-        console.log(err)
+        const errorMessage = `getWorkouts :: Workouts.js - Error when fetching workouts from backend API. Error: ${err}.`
+        console.log(errorMessage)
       }
     }
 
     const getExercises = async()=>{
       try {
-        axios.get('/api/exercise')
-          .then(res => setExercises(res.data))
+        const res = axios.get('/api/exercise')
+        setWorkoutsData(workoutsData=>({
+          ...workoutsData,
+          exercises: res.data,
+        }))
       } catch (err) {
-        console.log(err)
+        const errorMessage = `getExercises :: Workouts.js - Error when fetching exercises from backend API. Error: ${err}.`
+        console.log(errorMessage)
       }
     }
 

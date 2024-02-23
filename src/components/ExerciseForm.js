@@ -4,18 +4,26 @@ import axios from 'axios'
 
 const ExerciseForm = ()=>{
   const navigate = useNavigate()
-  const [exerciseTitle, setExerciseTitle]= useState("")
-  const [category, setCategory] = useState("")
-  const [workout, setWorkout]= useState("")
-  const [allWorkouts, setAllWorkouts] = useState([])
+  const initialExerciseData = {
+    title: '',
+    category: '',
+    workout: '',
+    allWorkouts: []
+  }
+  const [exerciseData, setExerciseData]= useState(initialExerciseData)
+
 
   useEffect(()=>{
     const getWorkouts = async()=>{
       try {
-        await axios.get('/api/workout')
-          .then(res => setAllWorkouts(res.data))
+        const res = await axios.get('/api/workout')
+        setExerciseData(exerciseData=>({
+          ...exerciseData,
+          allWorkouts: res.data,
+        }))
       } catch (err) {
-        console.log(err)
+        const errorMessage = `getWorkouts :: ExerciseForm.js - Error when fetching all workouts from backend API. Error: ${err}.`
+        console.log(errorMessage)
       }
     }
     getWorkouts()
@@ -29,19 +37,27 @@ const ExerciseForm = ()=>{
         "workout": workout,
       })
     } catch (err) {
-      console.log(err)
+      const errorMessage = `addExercise :: ExerciseForm.js - Error when posting new exercise to backend. Error: ${err}.`
+      console.log(errorMessage)
     }
     navigate('/exercises')
   }
-  console.log(allWorkouts)
+  
+  const handleChange = (ev)=>{
+    const {name, value} = ev.target
+    setExerciseData(exerciseData =>({
+      ...exerciseData,
+      [name]: value,
+    }))
+  }
   return(
     <div>
       <h1>Add a New Exercise</h1>
       <form>
         <label for="exerciseTitle" >Exercise Title:</label>
-        <input  type="text" id='exerciseTitle' name='exerciseTitle' onChange={(ev)=>setExerciseTitle(ev.target.value)}/>
+        <input  type="text" id='exerciseTitle' name='title' onChange={handleChange}/>
         <label for="category">Category:</label>
-        <select id='category' name='category' onChange={(ev)=>{setCategory(ev.target.value)}}>
+        <select id='category' name='category' onChange={handleChange}>
           <option value=''>Select One</option>
           <option value='ARMS'>Arms</option>
           <option value='LEGS'>Legs</option>
@@ -50,7 +66,7 @@ const ExerciseForm = ()=>{
           <option value='ABS'>Abs</option>
         </select>
         <label for='workout'>Workout:</label>
-        <select id='workout' name='workout' onChange={(ev)=>{setWorkout(ev.target.value)}}>
+        <select id='workout' name='workout' onChange={handleChange}>
           <option value=''>Select One</option>
           {allWorkouts.map(workout=>{
             return(
