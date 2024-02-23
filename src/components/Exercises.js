@@ -21,7 +21,7 @@ const Exercises = ()=>{
 
     const getWorkouts = async()=>{
       try {
-        const res = axios.get('/api/workout')
+        const res = await axios.get('/api/workout')
         setWorkouts(res.data)
       } catch (err) {
         const errorMessage = `getWorkouts :: Exercises.js - Error when fetching all workouts from backend API. Error: ${err}.`

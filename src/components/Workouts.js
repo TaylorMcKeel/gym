@@ -14,7 +14,7 @@ const Workouts = ()=>{
   useEffect(()=>{
     const getWorkouts = async()=>{
       try {
-        const res = axios.get('/api/workout')
+        const res = await axios.get('/api/workout')
         setWorkoutsData(workoutsData=>({
           ...workoutsData,
           workouts: res.data,
@@ -27,7 +27,7 @@ const Workouts = ()=>{
 
     const getExercises = async()=>{
       try {
-        const res = axios.get('/api/exercise')
+        const res = await axios.get('/api/exercise')
         setWorkoutsData(workoutsData=>({
           ...workoutsData,
           exercises: res.data,

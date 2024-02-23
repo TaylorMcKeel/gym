@@ -18,7 +18,7 @@ const WorkoutForm = ()=>{
   //To-Do: create a function to make a new workout
   const createWorkout = async ()=>{
     try {
-      axios.post('/api/workout',{
+      await axios.post('/api/workout',{
         "title": title,
         "duration": duration,
         "creator": "64ce31438df1e2b147f43193"

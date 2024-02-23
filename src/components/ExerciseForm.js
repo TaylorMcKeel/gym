@@ -31,7 +31,7 @@ const ExerciseForm = ()=>{
   
   const addExercise = async()=>{
     try {
-      axios.post('/api/exercise',{
+      await axios.post('/api/exercise',{
         "title": exerciseTitle,
         "category": category,
         "workout": workout,

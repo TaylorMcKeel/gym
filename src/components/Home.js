@@ -16,7 +16,7 @@ const Home = ()=>{
 //To-Do: find out how to login and get user after logging in... where does userID live
     const getUser = async()=>{
       try {
-        const res = axios.get('/api/user')
+        const res = await axios.get('/api/user')
         setHomeData(homeData=>({
           ...homeData,
           user: res.data,
@@ -48,7 +48,7 @@ const Home = ()=>{
       [name]: value,
     }))
   }
-  if(!isLoggedIn){
+  if(!homeData.isLoggedIn){
     return(
       <div>
         <h1>Welcome Please Login</h1>
@@ -61,10 +61,10 @@ const Home = ()=>{
         <button onClick={userLogin}>Login</button>
       </div>
     )
-  }else{
+  }else if(homeData.user){
     return(
       <div>
-        <h1>Welcome Back {user.firstName}</h1>
+        <h1>Welcome Back {homeData.user.firstName}</h1>
         <p><button onClick ={navigateWorkouts}>My Workouts</button></p>
         <p><button onClick ={navigateExercises}>My Exercises</button></p>
       </div>
