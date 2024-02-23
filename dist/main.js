@@ -4220,7 +4220,7 @@ var ExerciseForm = function ExerciseForm() {
             case 7:
               _context.prev = 7;
               _context.t0 = _context["catch"](0);
-              errorMessage = "getWorkouts :: ExerciseForm.js - Error when fetching all workouts from backend API. Error: ".concat(_context.t0, ".");
+              errorMessage = "getWorkouts :: ExerciseForm.js - Error when fetching all workouts from backend API. Error: ".concat(_context.t0, "."); //To-Do: on err throw an aerror and reroute to home page
               console.log(errorMessage);
             case 11:
             case "end":

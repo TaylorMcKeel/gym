@@ -23,6 +23,8 @@ const ExerciseForm = ()=>{
         }))
       } catch (err) {
         const errorMessage = `getWorkouts :: ExerciseForm.js - Error when fetching all workouts from backend API. Error: ${err}.`
+
+        //To-Do: on err throw an aerror and reroute to home page
         console.log(errorMessage)
       }
     }
