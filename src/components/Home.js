@@ -29,9 +29,9 @@ const Home = ()=>{
 
     getUser()
   },[])
-
-  const userLogin = ()=>{
-
+// only have done the backend of jwt token never practiced tying it to the front so need to figure out what to do here
+  const userLogin = async(email, password)=>{
+    const token = await axios.post('/login', {email, password})
   }
 //To-Do: fix the routes for where the workouts and exercises for a user live.
   const navigateWorkouts =()=>{

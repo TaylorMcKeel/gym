@@ -107,11 +107,50 @@ const deleteUser = async(req,res,next)=>{
   }
 }
 
+const login = async (req,res,next)=>{
+  const {email, password} = req.body
+
+  if( !email || !password){
+    throw new Error('Please provide an email and password')
+  }
+
+  const user = await User.findOne({email}).select('+passowrd') //finds user based on email and only returns the password
+
+  if(!user){
+    throw new Error('User does not exist')
+  }
+
+  const passwordsMatch = await user.matchPasswords(password)
+
+  if(!passwordsMatch){
+    throw new Error('Password is incorrect')
+  }
+
+  sendTokenResponse(user, 200, res)
+}
+
+//To-Do: Add endpoints for forgot and reset password
+
+const sendTokenResponse = (user, statusCode, res)=>{
+  const token = user.getSignedJwtToken()
+//This is a cookie for the jwt token would this be a good place to store the userId?
+  const options = {
+    expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000),
+    httpOnly: true
+  }
+  res
+    .status(statusCode)
+    .cookie('token', token, options)
+    .json(token)
+}
+
+
 module.exports = {
   getUsers,
   createUser,
   deleteUsers,
   getUser,
   updateUser,
-  deleteUser
+  deleteUser,
+  login
 }

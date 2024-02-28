@@ -7,7 +7,8 @@ const {
   deleteUsers,
   getUser,
   updateUser,
-  deleteUser
+  deleteUser,
+  login
 } = require('../controllers/userController')
 
 router.route('/')
@@ -15,6 +16,8 @@ router.route('/')
   .post(createUser)
   .delete(deleteUsers)
 
+router.route('/login')
+  .post(login)
 
 router.route('/:userId')
   .get(getUser)
