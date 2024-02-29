@@ -1,13 +1,16 @@
 import React, {useState, useEffect} from 'react'
 import {useNavigate} from "react-router-dom"
 import axios from "axios"
+// const jwt = require('jsonwebtoken')
+
+
 
 const Home = ()=>{
   const navigate = useNavigate()
   const initialHomeData = {
-    isLoggedIn: true,
+    isLoggedIn: false,
     user: {},
-    username: "",
+    email: "",
     password: "",
   }
   const [homeData, setHomeData] = useState(initialHomeData)
@@ -29,9 +32,13 @@ const Home = ()=>{
 
     getUser()
   },[])
-// only have done the backend of jwt token never practiced tying it to the front so need to figure out what to do here
-  const userLogin = async(email, password)=>{
-    const token = await axios.post('/login', {email, password})
+//I got the token back and got the login route to work. Im not sure how I would use verify here. But what im reading is to use jwt decode to get the userid out of the token since I dont see it in the token object
+  const userLogin = async()=>{
+    const {email, password} = homeData
+    const token = await axios.post('/api/user/login', {email, password})
+    // const verified = await jwt.verify(token, process.env.JWT_SECRET)
+    
+    console.log(token)
   }
 //To-Do: fix the routes for where the workouts and exercises for a user live.
   const navigateWorkouts =()=>{
@@ -53,8 +60,8 @@ const Home = ()=>{
       <div>
         <h1>Welcome Please Login</h1>
         <form>
-          <label for="username" >Username:</label>
-          <input  type="text" id='username' name='username' onChange={handleChange}/>
+          <label for="email" >Email:</label>
+          <input  type="text" id='email' name='email' onChange={handleChange}/>
           <label for="password" >Password:</label>
           <input  type="text" id='password' name='password' onChange={handleChange}/>
         </form> 

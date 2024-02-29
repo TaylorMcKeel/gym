@@ -4499,12 +4499,14 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+// const jwt = require('jsonwebtoken')
+
 var Home = function Home() {
   var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_1__.useNavigate)();
   var initialHomeData = {
-    isLoggedIn: true,
+    isLoggedIn: false,
     user: {},
-    username: "",
+    email: "",
     password: ""
   };
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(initialHomeData),
@@ -4548,7 +4550,34 @@ var Home = function Home() {
     }();
     getUser();
   }, []);
-  var userLogin = function userLogin() {};
+  //I got the token back and got the login route to work. Im not sure how I would use verify here. But what im reading is to use jwt decode to get the userid out of the token since I dont see it in the token object
+  var userLogin = /*#__PURE__*/function () {
+    var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+      var email, password, token;
+      return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+        while (1) switch (_context2.prev = _context2.next) {
+          case 0:
+            email = homeData.email, password = homeData.password;
+            _context2.next = 3;
+            return axios__WEBPACK_IMPORTED_MODULE_2__["default"].post('/api/user/login', {
+              email: email,
+              password: password
+            });
+          case 3:
+            token = _context2.sent;
+            // const verified = await jwt.verify(token, process.env.JWT_SECRET)
+
+            console.log(token);
+          case 5:
+          case "end":
+            return _context2.stop();
+        }
+      }, _callee2);
+    }));
+    return function userLogin() {
+      return _ref2.apply(this, arguments);
+    };
+  }();
   //To-Do: fix the routes for where the workouts and exercises for a user live.
   var navigateWorkouts = function navigateWorkouts() {
     navigate("/workouts/");
@@ -4566,11 +4595,11 @@ var Home = function Home() {
   };
   if (!homeData.isLoggedIn) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", null, "Welcome Please Login"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("form", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", {
-      "for": "username"
-    }, "Username:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+      "for": "email"
+    }, "Email:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
       type: "text",
-      id: "username",
-      name: "username",
+      id: "email",
+      name: "email",
       onChange: handleChange
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", {
       "for": "password"

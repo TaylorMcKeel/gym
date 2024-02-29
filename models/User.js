@@ -37,7 +37,8 @@ const UserSchema = new Schema({
 })
 
 UserSchema.methods.getSignedJwtToken = function(){
-  return jwt.sign({id: this._id}, process.env.JWT_Secret, {
+
+  return jwt.sign({id: this._id}, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRE
   })
 }
@@ -51,7 +52,7 @@ UserSchema.pre('save', async function (next){
   next()
 })
 
-UserSchema.methods.matchPassword = async function(enteredPassword){
-  return await bcrypt.compare(this.password, enteredPassword)
+UserSchema.methods.matchPasswords = async function(enteredPassword){
+  return await bcrypt.compare( enteredPassword, this.password)
 }
 module.exports = mongoose.model('User', UserSchema)

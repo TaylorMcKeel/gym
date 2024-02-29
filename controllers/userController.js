@@ -1,5 +1,6 @@
 const User = require('../models/User')
 
+const CONVERT_TO_MILLISECONDS = 24 * 60 * 60 * 1000
 
 const getUsers = async(req,res,next)=>{
   const filter = {}
@@ -109,7 +110,6 @@ const deleteUser = async(req,res,next)=>{
 
 const login = async (req,res,next)=>{
   const {email, password} = req.body
-
   if( !email || !password){
     throw new Error('Please provide an email and password')
   }
@@ -121,7 +121,6 @@ const login = async (req,res,next)=>{
   }
 
   const passwordsMatch = await user.matchPasswords(password)
-
   if(!passwordsMatch){
     throw new Error('Password is incorrect')
   }
@@ -133,10 +132,10 @@ const login = async (req,res,next)=>{
 
 const sendTokenResponse = (user, statusCode, res)=>{
   const token = user.getSignedJwtToken()
-//This is a cookie for the jwt token would this be a good place to store the userId?
   const options = {
-    expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000),
-    httpOnly: true
+    expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRE * CONVERT_TO_MILLISECONDS),
+    httpOnly: true,
+    userId: user._id
   }
   res
     .status(statusCode)
