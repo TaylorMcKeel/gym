@@ -135,7 +135,6 @@ const sendTokenResponse = (user, statusCode, res)=>{
   const options = {
     expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRE * CONVERT_TO_MILLISECONDS),
     httpOnly: true,
-    userId: user._id
   }
   res
     .status(statusCode)

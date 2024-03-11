@@ -16,25 +16,26 @@ const {
   deleteExerciseStat
 } = require('../controllers/exerciseController')
 
+const protectedRoute = require('../middlewares/auth')
 
 router.route('/')
-  .get(getExercises)
-  .post(createExercise)
-  .delete(deleteExercises)
+  .get(protectedRoute, getExercises)
+  .post(protectedRoute, createExercise)
+  .delete(protectedRoute, deleteExercises)
 
 router.route('/:exerciseId')
-  .get(getExercise)
-  .put(updateExercise)
-  .delete(deleteExercise)
+  .get(protectedRoute, getExercise)
+  .put(protectedRoute, updateExercise)
+  .delete(protectedRoute, deleteExercise)
 
 router.route('/:exerciseId/stats')
-  .get(getExerciseStats)
-  .post(createExerciseStat)
-  .delete(deleteExerciseStats)
+  .get(protectedRoute, getExerciseStats)
+  .post(protectedRoute, createExerciseStat)
+  .delete(protectedRoute, deleteExerciseStats)
 
 router.route('/:exerciseId/stats/:statId')
-  .get(getExerciseStat)
-  .put(updateExerciseStat)
-  .delete(deleteExerciseStat)
+  .get(protectedRoute, getExerciseStat)
+  .put(protectedRoute, updateExerciseStat)
+  .delete(protectedRoute, deleteExerciseStat)
 
 module.exports = router

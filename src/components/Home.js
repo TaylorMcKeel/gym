@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import {useNavigate} from "react-router-dom"
 import axios from "axios"
-// const jwt = require('jsonwebtoken')
+import { jwtDecode } from 'jwt-decode'
+
 
 
 
@@ -16,7 +17,10 @@ const Home = ()=>{
   const [homeData, setHomeData] = useState(initialHomeData)
  
   useEffect(()=>{
-//To-Do: find out how to login and get user after logging in... where does userID live
+//No longer think I need this function because it occurs at login, but what if I renavigate to the home page?
+    const token = document.cookie.split(';').find(cookie => cookie.trim().startsWith('token='));
+
+    console.log(document.cookie);
     const getUser = async()=>{
       try {
         const res = await axios.get('/api/user/64ce31438df1e2b147f43193')
@@ -32,13 +36,24 @@ const Home = ()=>{
 
     getUser()
   },[])
-//I got the token back and got the login route to work. Im not sure how I would use verify here. But what im reading is to use jwt decode to get the userid out of the token since I dont see it in the token object
+
   const userLogin = async()=>{
-    const {email, password} = homeData
-    const token = await axios.post('/api/user/login', {email, password})
-    // const verified = await jwt.verify(token, process.env.JWT_SECRET)
-    
-    console.log(token)
+    try {
+      const token = await axios.post('/api/user/login', {email: homeData.email, password: homeData.password})
+      const decodedToken = jwtDecode(token.data)
+      const user = await axios.get(`/api/user/${decodedToken.id}`)
+      console.log(user.headers)
+      //not quite sure why it is stored as id when I set it in the token as UserId
+      setHomeData(homeData=>({
+        ...homeData,
+        isLoggedIn: true,
+        user: user.data
+      }))
+    }
+    catch (err) {
+      const errorMessage = `userLogin :: Home.js - Error when fetching user from backend API during login. Error: ${err}.`
+      console.log(errorMessage)
+    }
   }
 //To-Do: fix the routes for where the workouts and exercises for a user live.
   const navigateWorkouts =()=>{
