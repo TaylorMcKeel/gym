@@ -2,6 +2,8 @@ const User = require('../models/User')
 
 const CONVERT_TO_MILLISECONDS = 24 * 60 * 60 * 1000
 
+
+//To-Do: user req.user in order to grab the user for home page
 const getUsers = async(req,res,next)=>{
   const filter = {}
   const options = {}

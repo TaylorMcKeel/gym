@@ -2,9 +2,9 @@ import React, {useState, useEffect} from 'react'
 import {useNavigate} from "react-router-dom"
 import axios from "axios"
 import { jwtDecode } from 'jwt-decode'
+import Cookies from 'js-cookie'
 
-
-
+//To-Do: separate login into its own component and use protectedroute for home page to get user.
 
 const Home = ()=>{
   const navigate = useNavigate()
@@ -18,9 +18,8 @@ const Home = ()=>{
  
   useEffect(()=>{
 //No longer think I need this function because it occurs at login, but what if I renavigate to the home page?
-    const token = document.cookie.split(';').find(cookie => cookie.trim().startsWith('token='));
-
-    console.log(document.cookie);
+    const token = Cookies.get()
+    console.log(window.location.origin)
     const getUser = async()=>{
       try {
         const res = await axios.get('/api/user/64ce31438df1e2b147f43193')
@@ -42,8 +41,11 @@ const Home = ()=>{
       const token = await axios.post('/api/user/login', {email: homeData.email, password: homeData.password})
       const decodedToken = jwtDecode(token.data)
       const user = await axios.get(`/api/user/${decodedToken.id}`)
-      console.log(user.headers)
-      //not quite sure why it is stored as id when I set it in the token as UserId
+
+      //add the token to a header to be accessed by the backend for protectedroute
+
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token.data}`;
+  
       setHomeData(homeData=>({
         ...homeData,
         isLoggedIn: true,

@@ -1,5 +1,6 @@
 const Exercise = require('../models/Exercise')
 
+//To-Do: use req.user from protected route to get the user's exercises.. can get rid of filter.
 const getExercises = async(req,res,next)=>{
   const filter ={}
   const options = {}
