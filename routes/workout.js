@@ -7,7 +7,8 @@ const {
   deleteWorkouts,
   getWorkout,
   updateWorkout,
-  deleteWorkout
+  deleteWorkout,
+  getUserWorkouts
 } = require('../controllers/workoutController')
 
 const protectedRoute = require('../middlewares/auth')
@@ -16,6 +17,10 @@ router.route('/')
   .get(protectedRoute, getWorkouts)
   .post(protectedRoute, createWorkout)
   .delete(protectedRoute, deleteWorkouts)
+
+router.route('/userWorkouts')
+  .get(protectedRoute, getUserWorkouts)
+ 
 
 router.route('/:workoutId')
   .get(protectedRoute, getWorkout)

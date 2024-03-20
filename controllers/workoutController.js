@@ -38,6 +38,19 @@ const getWorkouts = async(req,res,next)=>{
   }
 }
 
+const getUserWorkouts = async(req,res,next)=>{
+
+  try {
+    const result = await Workout.find({creator: req.userId})
+    res
+    .status(200)
+    .setHeader('Content-Type','application/json')
+    .json(result)
+  } catch (err) {
+    next(err)
+  }
+
+}
 
 const createWorkout = async(req,res,next)=>{
   try {
@@ -108,5 +121,6 @@ module.exports = {
   createWorkout,
   getWorkout,
   updateWorkout,
-  deleteWorkout
+  deleteWorkout,
+  getUserWorkouts
 }

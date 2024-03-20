@@ -9,19 +9,33 @@ const WorkoutForm = ()=>{
   const initialWorkoutData = {
     title: "",
     duration: WORKOUT_STARTING_DURATION,
+    user: {}
   }
   const [workoutData, setWorkoutData] = useState(initialWorkoutData)
-  //To-Do: find out how to login and get user after logging in... where does userID live
+  
   useEffect(()=>{
+    const getUser = async()=>{
+      try {
+        const res = await axios.get('/api/user/loggedInUser')
+        setWorkoutData(workoutData=>({
+          ...workoutData,
+          user: res.data,
+        }))
+      } catch (err) {
+        const errorMessage = `getUser :: WorkoutForm.js - Error when fetching user from backend API. Error: ${err}.`
+        console.log(errorMessage)
+      }
+    }
 
+    getUser()
   },[])
-  //To-Do: create a function to make a new workout
+
   const createWorkout = async ()=>{
     try {
       await axios.post('/api/workout',{
-        "title": title,
-        "duration": duration,
-        "creator": "64ce31438df1e2b147f43193"
+        "title": workoutData.title,
+        "duration": workoutData.duration,
+        "creator": workoutData.user._id,
       })
     } catch (err) {
       const errorMessage = `createWorkout :: WorkoutForm.js - Error when posting new workout to backend. Error: ${err}.`
@@ -29,6 +43,7 @@ const WorkoutForm = ()=>{
     }
     navigate('/workouts')
   }
+
   const handleChange = (ev)=>{
     const {name, value} = ev.target
     setWorkoutData(workoutData=>({

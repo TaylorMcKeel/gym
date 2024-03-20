@@ -9,7 +9,6 @@ import Cookies from 'js-cookie'
 const Home = ()=>{
   const navigate = useNavigate()
   const initialHomeData = {
-    isLoggedIn: false,
     user: {},
     email: "",
     password: "",
@@ -19,7 +18,7 @@ const Home = ()=>{
   useEffect(()=>{
     const getUser = async()=>{
       try {
-        const res = await axios.get('/api/user/')
+        const res = await axios.get('/api/user/loggedInUser')
         setHomeData(homeData=>({
           ...homeData,
           user: res.data,
@@ -33,24 +32,7 @@ const Home = ()=>{
     getUser()
   },[])
 
-  const userLogin = async()=>{
-    try {
-      const token = await axios.post('/api/user/login', {email: homeData.email, password: homeData.password})
-      const decodedToken = jwtDecode(token.data)
-      const user = await axios.get(`/api/user/${decodedToken.id}`)
-
   
-      setHomeData(homeData=>({
-        ...homeData,
-        isLoggedIn: true,
-        user: user.data
-      }))
-    }
-    catch (err) {
-      const errorMessage = `userLogin :: Home.js - Error when fetching user from backend API during login. Error: ${err}.`
-      console.log(errorMessage)
-    }
-  }
 //To-Do: fix the routes for where the workouts and exercises for a user live.
   const navigateWorkouts =()=>{
     navigate(`/workouts/`)
@@ -59,35 +41,16 @@ const Home = ()=>{
   const navigateExercises =()=>{
     navigate(`/exercises/`)
   }
-  const handleChange = (ev)=>{
-    const {name, value} = ev.target
-    setHomeData(homeData => ({
-      ...homeData,
-      [name]: value,
-    }))
-  }
-  if(!homeData.isLoggedIn){
-    return(
-      <div>
-        <h1>Welcome Please Login</h1>
-        <form>
-          <label for="email" >Email:</label>
-          <input  type="text" id='email' name='email' onChange={handleChange}/>
-          <label for="password" >Password:</label>
-          <input  type="text" id='password' name='password' onChange={handleChange}/>
-        </form> 
-        <button onClick={userLogin}>Login</button>
-      </div>
-    )
-  }else if(homeData.user){
-    return(
-      <div>
-        <h1>Welcome Back {homeData.user.firstName}</h1>
-        <p><button onClick ={navigateWorkouts}>My Workouts</button></p>
-        <p><button onClick ={navigateExercises}>My Exercises</button></p>
-      </div>
-    )
-  }
+  
+  
+  return(
+    <div>
+      <h1>Welcome Back {homeData.user.firstName}</h1>
+      <p><button onClick ={navigateWorkouts}>My Workouts</button></p>
+      <p><button onClick ={navigateExercises}>My Exercises</button></p>
+    </div>
+  )
+  
 }
 
 export default Home;

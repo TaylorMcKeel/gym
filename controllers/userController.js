@@ -7,7 +7,7 @@ const CONVERT_TO_MILLISECONDS = 24 * 60 * 60 * 1000
 const getUsers = async(req,res,next)=>{
   const filter = {}
   const options = {}
-
+  
 
   // /user endpoint
   if(Object.keys(req.params).length){
@@ -76,8 +76,7 @@ const deleteUsers = async(req,res,next)=>{
 //should i remove the userId from the params and use req.userId from the protected route? I have access to it there.
 const getUser = async(req,res,next)=>{
   try {
-    console.log(req.userId)
-    const result = await User.findById(req.params.userId)
+    const result = await User.findById(req.userId)
     res
     .status(200)
     .setHeader('Content-Type','application/json')

@@ -21,7 +21,7 @@ router.route('/')
 router.route('/login')
   .post(login)
 
-router.route('/:userId')
+router.route('/loggedInUser')
   .get(protectedRoute, getUser)
   .put(protectedRoute, updateUser)
   .delete(protectedRoute, deleteUser)
