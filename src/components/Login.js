@@ -6,39 +6,25 @@ import Cookies from 'js-cookie'
 
 //To-Do: separate login into its own component and use protectedroute for home page to get user.
 
-const Home = ()=>{
+const Login = ()=>{
   const navigate = useNavigate()
-  const initialHomeData = {
-    isLoggedIn: false,
-    user: {},
+  const initialLoginData = {
     email: "",
     password: "",
   }
-  const [homeData, setHomeData] = useState(initialHomeData)
+  const [loginData, setLoginData] = useState(initialLoginData)
  
-  useEffect(()=>{
-    const getUser = async()=>{
-      try {
-        const res = await axios.get('/api/user/')
-        setHomeData(homeData=>({
-          ...homeData,
-          user: res.data,
-        }))
-      } catch (err) {
-        const errorMessage = `getUser :: Home.js - Error when fetching user from backend API. Error: ${err}.`
-        console.log(errorMessage)
-      }
-    }
-
-    getUser()
-  },[])
 
   const userLogin = async()=>{
     try {
-      const token = await axios.post('/api/user/login', {email: homeData.email, password: homeData.password})
+      const token = await axios.post('/api/user/login', {email: loginData.email, password: loginData.password})
       const decodedToken = jwtDecode(token.data)
       const user = await axios.get(`/api/user/${decodedToken.id}`)
 
+      //add the token to a header to be accessed by the backend for protectedroute
+      //I got rid of this.. I wasnt sure why I was having to do this on the fron end. Maybe I didnt set it correctly on the back.
+      //Instead I set the token in the cookie and then used the cookie to get the user in the protected route.
+      // axios.defaults.headers.common['Authorization'] = `Bearer ${token.data}`;
   
       setHomeData(homeData=>({
         ...homeData,
@@ -52,6 +38,7 @@ const Home = ()=>{
     }
   }
 //To-Do: fix the routes for where the workouts and exercises for a user live.
+//can now do this with protected routes
   const navigateWorkouts =()=>{
     navigate(`/workouts/`)
   }

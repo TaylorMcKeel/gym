@@ -4519,9 +4519,6 @@ var Home = function Home() {
     homeData = _useState2[0],
     setHomeData = _useState2[1];
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    //No longer think I need this function because it occurs at login, but what if I renavigate to the home page?
-    var token = js_cookie__WEBPACK_IMPORTED_MODULE_2__["default"].get();
-    console.log(window.location.origin);
     var getUser = /*#__PURE__*/function () {
       var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         var res, errorMessage;
@@ -4530,7 +4527,7 @@ var Home = function Home() {
             case 0:
               _context.prev = 0;
               _context.next = 3;
-              return axios__WEBPACK_IMPORTED_MODULE_4__["default"].get('/api/user/64ce31438df1e2b147f43193');
+              return axios__WEBPACK_IMPORTED_MODULE_4__["default"].get('/api/user/');
             case 3:
               res = _context.sent;
               setHomeData(function (homeData) {
@@ -4576,27 +4573,24 @@ var Home = function Home() {
             return axios__WEBPACK_IMPORTED_MODULE_4__["default"].get("/api/user/".concat(decodedToken.id));
           case 7:
             user = _context2.sent;
-            //add the token to a header to be accessed by the backend for protectedroute
-
-            axios__WEBPACK_IMPORTED_MODULE_4__["default"].defaults.headers.common['Authorization'] = "Bearer ".concat(token.data);
             setHomeData(function (homeData) {
               return _objectSpread(_objectSpread({}, homeData), {}, {
                 isLoggedIn: true,
                 user: user.data
               });
             });
-            _context2.next = 16;
+            _context2.next = 15;
             break;
-          case 12:
-            _context2.prev = 12;
+          case 11:
+            _context2.prev = 11;
             _context2.t0 = _context2["catch"](0);
             errorMessage = "userLogin :: Home.js - Error when fetching user from backend API during login. Error: ".concat(_context2.t0, ".");
             console.log(errorMessage);
-          case 16:
+          case 15:
           case "end":
             return _context2.stop();
         }
-      }, _callee2, null, [[0, 12]]);
+      }, _callee2, null, [[0, 11]]);
     }));
     return function userLogin() {
       return _ref2.apply(this, arguments);

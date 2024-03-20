@@ -5,6 +5,7 @@ const Workout = require('../models/Workout')
 const getWorkouts = async(req,res,next)=>{
   const filter = {}
   const options = {}
+  
   if(Object.keys(req.query).length){
     const {
       creator,

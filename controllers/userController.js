@@ -73,9 +73,10 @@ const deleteUsers = async(req,res,next)=>{
 
 
 // /user/:userId endpoints
-
+//should i remove the userId from the params and use req.userId from the protected route? I have access to it there.
 const getUser = async(req,res,next)=>{
   try {
+    console.log(req.userId)
     const result = await User.findById(req.params.userId)
     res
     .status(200)

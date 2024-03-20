@@ -9,7 +9,7 @@ const cors = require('cors')
 const path = require('path')
 const cookieParser = require('cookie-parser')
 //gives access to config variables
-dotenv.config({path: './config/.env'})
+dotenv.config()
 
 //connects to db must happen before you invoke express
 connectDB()
