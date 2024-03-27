@@ -14,11 +14,12 @@ const Exercises = ()=>{
   useEffect(()=>{
     const getExercises = async ()=>{
       try {
-        const res = await axios.get('/api/exercise')
+        const res = await axios.get('/api/exercise/userExercises')
         setExercisesData((exercisesData)=>({
           ...exercisesData,
           exercises: res.data
         }))
+        console.log(exercisesData.exercises.length)
       } catch (err) {
         const errorMessage = `getExercises :: Exercises.js - Error when fetching all exercises from backend API. Error: ${err}.`
         console.log(errorMessage)
@@ -28,7 +29,7 @@ const Exercises = ()=>{
 
     const getWorkouts = async()=>{
       try {
-        const res = await axios.get('/api/workout')
+        const res = await axios.get('/api/workout/userWorkouts')
         setExercisesData((exercisesData)=>({
           ...exercisesData,
           workouts: res.data
@@ -54,32 +55,43 @@ const Exercises = ()=>{
   const navigateExerciseForm = ()=>{
     navigate(`/newExercise`)
   }
-
-  return(
-    <div>
-      <h1>Your Exercises</h1>
-      <button onClick={navigateExerciseForm}>Add New Exercise</button>
-      <ul>
-        {exercisesData.exercises.map(curr=>{
-          let currWorkout 
-          exercisesData.workouts.map((item)=>{
-            if(item._id === curr.workout){
-              currWorkout = item
-            }
-          })
-      
-          return(
-            <li >
-              <h3>Title: {curr.title}</h3>
-              <p>Category: {curr.category}</p>
-              <p>Workout: <button onClick={()=>navigateWorkout(currWorkout._id)}>{currWorkout.title}</button></p>
-              <button onClick={()=>navigateStats(curr.id)}>See Stats</button>       
-            </li> //add functionality to open to exercise page with stats.
-          )
-        })}
-      </ul>
-    </div>
-  )
+  if(exercisesData.exercises.length === 0){
+    return(
+      <div>
+        <h1>Your Exercises</h1>
+        <button onClick={navigateExerciseForm}>Add New Exercise</button>
+        <p>No Exercises Yet</p>
+      </div>
+    )
+  }else{
+    console.log(exercisesData)
+    return(
+      <div>
+        <h1>Your Exercises</h1>
+        <button onClick={navigateExerciseForm}>Add New Exercise</button>
+        <ul>
+          {exercisesData.exercises.map(curr=>{
+            let currWorkout 
+            exercisesData.workouts.map((item)=>{
+              if(item._id === curr.workout){
+                currWorkout = item
+              }
+            })
+        
+            return(
+              <li >
+                <h3>Title: {curr.title}</h3>
+                <p>Category: {curr.category}</p>
+                <p>Workout: <button onClick={()=>navigateWorkout(currWorkout._id)}>{currWorkout.title}</button></p>
+                <button onClick={()=>navigateStats(curr.id)}>See Stats</button>       
+              </li> //add functionality to open to exercise page with stats.
+            )
+          })}
+        </ul>
+      </div>
+    )
+  }
+ 
 }
 
 
