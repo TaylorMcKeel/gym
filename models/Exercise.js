@@ -42,6 +42,10 @@ const ExerciseSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Workout'
   },
+  creator:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
   stats: [StatSchema]
 },{
   timestamps: true

@@ -1,12 +1,13 @@
 import React, {Component} from 'react'
 import {Route, Routes} from 'react-router-dom'
-import { Exercises, Workouts, Home, WorkoutForm, ExerciseForm} from './components'
+import { Exercises, Workouts, Home, WorkoutForm, ExerciseForm, Login} from './components'
 
 export class Router extends Component{
   render(){
     return(
       <Routes>
-        <Route exact path='/' element={<Home/>} />
+        <Route path='/' element={<Login/>} />
+        <Route path='/home' element={<Home/>} />
         <Route path='/workouts' element={<Workouts />} />
         <Route path='/exercises' element={<Exercises/>} />
         <Route path='/newExercise' element={<ExerciseForm/>} />

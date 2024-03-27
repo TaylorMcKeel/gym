@@ -1,5 +1,6 @@
 const Exercise = require('../models/Exercise')
 
+//To-Do: use req.user from protected route to get the user's exercises.. can get rid of filter.
 const getExercises = async(req,res,next)=>{
   const filter ={}
   const options = {}
@@ -55,7 +56,19 @@ const deleteExercises = async(req,res,next)=>{
   }
 }
 
+const getUserExercises = async(req,res,next)=>{
 
+  try {
+    const result = await Exercise.find({creator: req.userId})
+    res
+    .status(200)
+    .setHeader('Content-Type','application/json')
+    .json(result)
+  } catch (err) {
+    next(err)
+  }
+
+}
 // /exercise/:exerciseId
 
 const getExercise = async(req,res,next)=>{
@@ -207,5 +220,6 @@ module.exports = {
   deleteExerciseStats,
   getExerciseStat,
   updateExerciseStat,
-  deleteExerciseStat
+  deleteExerciseStat,
+  getUserExercises
 }
