@@ -4381,19 +4381,18 @@ var Exercises = function Exercises() {
                   exercises: res.data
                 });
               });
-              console.log(exercisesData.exercises.length);
-              _context.next = 12;
+              _context.next = 11;
               break;
-            case 8:
-              _context.prev = 8;
+            case 7:
+              _context.prev = 7;
               _context.t0 = _context["catch"](0);
               errorMessage = "getExercises :: Exercises.js - Error when fetching all exercises from backend API. Error: ".concat(_context.t0, ".");
               console.log(errorMessage);
-            case 12:
+            case 11:
             case "end":
               return _context.stop();
           }
-        }, _callee, null, [[0, 8]]);
+        }, _callee, null, [[0, 7]]);
       }));
       return function getExercises() {
         return _ref.apply(this, arguments);
@@ -4449,12 +4448,11 @@ var Exercises = function Exercises() {
       onClick: navigateExerciseForm
     }, "Add New Exercise"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, "No Exercises Yet"));
   } else {
-    console.log(exercisesData);
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", null, "Your Exercises"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
       onClick: navigateExerciseForm
     }, "Add New Exercise"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", null, exercisesData.exercises.map(function (curr) {
       var currWorkout;
-      exercisesData.workouts.map(function (item) {
+      exercisesData.workouts.forEach(function (item) {
         if (item._id === curr.workout) {
           currWorkout = item;
         }
@@ -4684,7 +4682,7 @@ var Login = function Login() {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", {
     "for": "password"
   }, "Password:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
-    type: "text",
+    type: "password",
     id: "password",
     name: "password",
     onChange: handleChange
@@ -5011,7 +5009,7 @@ var Workouts = function Workouts() {
   };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", null, "Your Workouts"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
     onClick: navigateNewWorkout
-  }, "Add New Workout"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", null, workoutsData.workouts.map(function (workout) {
+  }, "Add New Workout"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", null, workoutsData.workouts.forEach(function (workout) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", {
       key: workout._id
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h3", null, "Title: ", workout.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, "Duration: ", workout.duration), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {

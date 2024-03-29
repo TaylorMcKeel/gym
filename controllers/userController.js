@@ -43,6 +43,8 @@ const getUsers = async(req,res,next)=>{
     .setHeader('Content-Typer','application/json')
     .json(result)
   } catch (err) {
+    const message = 'Unable to get all users.'
+    err.message = message
     next(err)
   }
 }
@@ -55,6 +57,8 @@ const createUser = async(req,res,next)=>{
     .setHeader('Content-Type', 'application/json')
     .json(result)
   } catch (err) {
+    const message = 'Unable to create user.'
+    err.message = message
     next(err)
   }
 }
@@ -67,6 +71,8 @@ const deleteUsers = async(req,res,next)=>{
     .setHeader('Content-Type','application/json')
     .json(result)
   } catch (err) {
+    const message = 'Unable to delete all users.'
+    err.message = message
     next(err)
   }
 }
@@ -94,6 +100,8 @@ const updateUser = async(req,res,next)=>{
     .setHeader('Content-Tye','application/json')
     .json(result)
   } catch (err) {
+    const message = 'Unable to update user information.'
+    err.message = message
     next(err)
   }
 }
@@ -106,6 +114,8 @@ const deleteUser = async(req,res,next)=>{
     .setHeader('Content-Type','application/json')
     .json(result)
   } catch (err) {
+    const message = 'Unable to delete user.'
+    err.message = message
     next(err)
   }
 }

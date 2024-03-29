@@ -19,7 +19,6 @@ const Exercises = ()=>{
           ...exercisesData,
           exercises: res.data
         }))
-        console.log(exercisesData.exercises.length)
       } catch (err) {
         const errorMessage = `getExercises :: Exercises.js - Error when fetching all exercises from backend API. Error: ${err}.`
         console.log(errorMessage)
@@ -64,7 +63,6 @@ const Exercises = ()=>{
       </div>
     )
   }else{
-    console.log(exercisesData)
     return(
       <div>
         <h1>Your Exercises</h1>
@@ -72,7 +70,7 @@ const Exercises = ()=>{
         <ul>
           {exercisesData.exercises.map(curr=>{
             let currWorkout 
-            exercisesData.workouts.map((item)=>{
+            exercisesData.workouts.forEach((item)=>{
               if(item._id === curr.workout){
                 currWorkout = item
               }
