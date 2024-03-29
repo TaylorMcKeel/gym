@@ -1,5 +1,6 @@
 const Exercise = require('../models/Exercise')
 
+//To-Do: use req.user from protected route to get the user's exercises.. can get rid of filter.
 const getExercises = async(req,res,next)=>{
   const filter ={}
   const options = {}
@@ -27,6 +28,8 @@ const getExercises = async(req,res,next)=>{
     .setHeader('Content-Type','application/json')
     .json(result)
   } catch (err) {
+    const message = 'No exercise found with that that criteria.'
+    err.message = message
     next(err)
   }
 }
@@ -39,6 +42,8 @@ const createExercise = async(req,res,next)=>{
     .setHeader('Content-Type','application/json')
     .json(result)
   } catch (err) {
+    const message = 'Unable to create exercise.'
+    err.message = message
     next(err)
   }
 }
@@ -51,11 +56,27 @@ const deleteExercises = async(req,res,next)=>{
     .setHeader('Content-Type','applcation/json')
     .json(result)
   } catch (err) {
+    const message = 'Unable to delete all exercises'
+    err.message = message
     next(err)
   }
 }
 
+const getUserExercises = async(req,res,next)=>{
 
+  try {
+    const result = await Exercise.find({creator: req.userId})
+    res
+    .status(200)
+    .setHeader('Content-Type','application/json')
+    .json(result)
+  } catch (err) {
+    const message = 'No exercise found for that user.'
+    err.message = message
+    next(err)
+  }
+
+}
 // /exercise/:exerciseId
 
 const getExercise = async(req,res,next)=>{
@@ -66,6 +87,8 @@ const getExercise = async(req,res,next)=>{
     .setHeader('Content-Type','application/json')
     .json(result)
   } catch (err) {
+    const message = 'No exercise found with that id.'
+    err.message = message
     next(err)
   }
 }
@@ -78,6 +101,8 @@ const updateExercise = async(req,res,next)=>{
     .setHeader('Content-Type','application/json')
     .json(result)
   } catch (err) {
+    const message = 'Unable to update exercise.'
+    err.message = message
     next(err)
   }
 }
@@ -90,6 +115,8 @@ const deleteExercise = async(req,res,next)=>{
     .setHeader('Content-Type','application/json')
     .json(result)
   } catch (err) {
+    const message = 'Unable to delete exercise.'
+    err.message = message
     next(err)
   }
 }
@@ -104,6 +131,8 @@ const getExerciseStats = async(req,res,next)=>{
     .setHeader('Content-Type','application/json')
     .json(result.stats)
   } catch (err) {
+    const message = 'Unable to get all stats.'
+    err.message = message
     next(err)
   }
 }
@@ -118,6 +147,8 @@ const deleteExerciseStats = async(req,res,next)=>{
     .setHeader('Content-Type','application/json')
     .json({message: `Deleted all stats for exercise id of ${req.params.id}`})
   } catch (err) {
+    const message = 'Unable to delete the stats for this exercise.'
+    err.message = message
     next(err)
   }
 }
@@ -132,6 +163,8 @@ const createExerciseStat = async(req,res,next)=>{
     .setHeader('Content-Type','application/json')
     .json(result.stats)
   } catch (err) {
+    const message = 'Unable to create stats for this exercise.'
+    err.message = message
     next(err)
   }
 }
@@ -148,6 +181,8 @@ const getExerciseStat = async(req,res,next)=>{
     .setHeader('Content-Type','application/json')
     .json(stat)
   } catch (err) {
+    const message = 'Unable to get stats for this exercise.'
+    err.message = message
     next(err)
   }
 }
@@ -169,6 +204,8 @@ const updateExerciseStat = async(req,res,next)=>{
     .setHeader('Content-Type','application/json')
     .json(stat)
   } catch (err) {
+    const message = 'Unable to update stat for this exercise.'
+    err.message = message
     next(err)
   }
 }
@@ -190,6 +227,8 @@ const deleteExerciseStat = async(req,res,next)=>{
     .setHeader('Content-Type','application/json')
     .json(stat)
   } catch (err) {
+    const message = 'Unable to delete stat for this exercise.'
+    err.message = message
     next(err)
   }
 }
@@ -207,5 +246,6 @@ module.exports = {
   deleteExerciseStats,
   getExerciseStat,
   updateExerciseStat,
-  deleteExerciseStat
+  deleteExerciseStat,
+  getUserExercises
 }

@@ -7,8 +7,9 @@ const workout = require('./routes/workout')
 const exercise = require('./routes/exercise')
 const cors = require('cors')
 const path = require('path')
+const cookieParser = require('cookie-parser')
 //gives access to config variables
-dotenv.config({path:'./config/config.env'})
+dotenv.config()
 
 //connects to db must happen before you invoke express
 connectDB()
@@ -18,6 +19,8 @@ const app = express()
 
 //converts json data into readable object
 app.use(bodyParser.json())
+//allows me to access and read the jwt cookie
+app.use(cookieParser())
 app.use(cors({
   origin:'*'
 }))

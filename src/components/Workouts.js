@@ -14,7 +14,7 @@ const Workouts = ()=>{
   useEffect(()=>{
     const getWorkouts = async()=>{
       try {
-        const res = await axios.get('/api/workout')
+        const res = await axios.get('/api/workout/userWorkouts')
         setWorkoutsData(workoutsData=>({
           ...workoutsData,
           workouts: res.data,
@@ -53,7 +53,7 @@ const Workouts = ()=>{
       <h1>Your Workouts</h1>
       <button onClick={navigateNewWorkout}>Add New Workout</button>
       <ul>
-        {workoutsData.workouts.map((workout)=>{
+        {workoutsData.workouts.forEach((workout)=>{
           return(
             <li key={workout._id}>
               <h3>Title: {workout.title}</h3>

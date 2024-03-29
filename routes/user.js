@@ -11,6 +11,8 @@ const {
   login
 } = require('../controllers/userController')
 
+const protectedRoute = require('../middlewares/auth')
+
 router.route('/')
   .get(getUsers)
   .post(createUser)
@@ -19,10 +21,10 @@ router.route('/')
 router.route('/login')
   .post(login)
 
-router.route('/:userId')
-  .get(getUser)
-  .put(updateUser)
-  .delete(deleteUser)
+router.route('/loggedInUser')
+  .get(protectedRoute, getUser)
+  .put(protectedRoute, updateUser)
+  .delete(protectedRoute, deleteUser)
 
 
 module.exports = router
