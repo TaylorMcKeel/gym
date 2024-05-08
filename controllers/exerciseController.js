@@ -34,6 +34,23 @@ const getExercises = async(req,res,next)=>{
   }
 }
 
+const getUserExercises = async(req,res,next)=>{
+
+  try {
+    const result = await Exercise.find({creator: req.userId})
+    res
+    .status(200)
+    .setHeader('Content-Type','application/json')
+    .json(result)
+  } catch (err) {
+    const message = 'No exercise found for that user.'
+    err.message = message
+    next(err)
+  }
+
+}
+
+
 const createExercise = async(req,res,next)=>{
   try {
     const result = await Exercise.create(req.body)
@@ -62,21 +79,6 @@ const deleteExercises = async(req,res,next)=>{
   }
 }
 
-const getUserExercises = async(req,res,next)=>{
-
-  try {
-    const result = await Exercise.find({creator: req.userId})
-    res
-    .status(200)
-    .setHeader('Content-Type','application/json')
-    .json(result)
-  } catch (err) {
-    const message = 'No exercise found for that user.'
-    err.message = message
-    next(err)
-  }
-
-}
 // /exercise/:exerciseId
 
 const getExercise = async(req,res,next)=>{
@@ -217,7 +219,7 @@ const deleteExerciseStat = async(req,res,next)=>{
     if(stat){
       const statIndexPosition = result.stats.indexOf(stat)
       result.stats.splice(statIndexPosition,1)
-      stat = {message: `Successfully delted stat with id ${req.params.statId}`}
+      stat = {message: `Successfully deleted stat with id ${req.params.statId}`}
       await result.save()
     }else{
       stat = {message: `No stat found with id ${req.params.statId}`}
