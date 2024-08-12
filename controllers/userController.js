@@ -1,5 +1,5 @@
 const User = require('../models/User')
-
+const logger = require('./utils/logger')
 const CONVERT_TO_MILLISECONDS = 24 * 60 * 60 * 1000
 
 
@@ -43,8 +43,7 @@ const getUsers = async(req,res,next)=>{
     .setHeader('Content-Typer','application/json')
     .json(result)
   } catch (err) {
-    const message = 'Unable to get all users.'
-    err.message = message
+    logger.error('Unable to get all users.')
     next(err)
   }
 }
@@ -57,8 +56,7 @@ const createUser = async(req,res,next)=>{
     .setHeader('Content-Type', 'application/json')
     .json(result)
   } catch (err) {
-    const message = 'Unable to create user.'
-    err.message = message
+    logger.error('Unable to create user.')
     next(err)
   }
 }
@@ -71,8 +69,7 @@ const deleteUsers = async(req,res,next)=>{
     .setHeader('Content-Type','application/json')
     .json(result)
   } catch (err) {
-    const message = 'Unable to delete all users.'
-    err.message = message
+    logger.error('Unable to delete all users.')
     next(err)
   }
 }
@@ -88,8 +85,7 @@ const getUser = async(req,res,next)=>{
     .setHeader('Content-Type','application/json')
     .json(result)
   } catch (err) {
-    const message= `Unable to get user using userID ${req.userId}`
-    err.message = message
+    logger.error(`Unable to get user using userID ${req.userId}`)
     next(err)
   }
 }
@@ -102,8 +98,7 @@ const updateUser = async(req,res,next)=>{
     .setHeader('Content-Tye','application/json')
     .json(result)
   } catch (err) {
-    const message = 'Unable to update user information.'
-    err.message = message
+    logger.error('Unable to update user information.')
     next(err)
   }
 }
@@ -116,8 +111,7 @@ const deleteUser = async(req,res,next)=>{
     .setHeader('Content-Type','application/json')
     .json(result)
   } catch (err) {
-    const message = 'Unable to delete user.'
-    err.message = message
+    logger.error('Unable to delete user.')
     next(err)
   }
 }

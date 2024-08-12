@@ -34,8 +34,7 @@ const getWorkouts = async(req,res,next)=>{
     .setHeader('Content-Type','application/json')
     .json(result)
   } catch (err) {
-    const message = 'Unable to get all workouts.'
-    err.message = message
+    logger.error('Unable to get all workouts.')
     next(err)
   }
 }
@@ -49,8 +48,7 @@ const getUserWorkouts = async(req,res,next)=>{
     .setHeader('Content-Type','application/json')
     .json(result)
   } catch (err) {
-    const message = 'Unable to get workouts for this user.'
-    err.message = message
+    logger.error('Unable to get workouts for this user.')
     next(err)
   }
 
@@ -64,8 +62,7 @@ const createWorkout = async(req,res,next)=>{
     .setHeader('Content-Type','application/json')
     .json(result)
   } catch (err) {
-    const message = 'Unable to create workout.'
-    err.message = message
+    logger.error('Unable to create workout.')
     next(err)
   }
 }
@@ -78,8 +75,7 @@ const deleteWorkouts = async(req,res,next)=>{
     .setHeader('Content-Type','application/json')
     .json(result)
   } catch (err) {
-    const message = 'Unable to delete all workouts.'
-    err.message = message
+    logger.error('Unable to delete all workouts.')
     next(err)
   }
 }
@@ -95,8 +91,7 @@ const getWorkout = async(req,res,next)=>{
     .setHeader('Content-Type','application/json')
     .json(result)
   } catch (err) {
-    const message = 'No workout found with that criteria.'
-    err.message = message
+    logger.error('No workout found with that criteria.')
     next(err)
   }
 }
@@ -109,8 +104,7 @@ const updateWorkout = async(req,res,next)=>{
     .setHeader('Content-Type','application/json')
     .json(result)
   } catch (err) {
-    const message = 'Unable to update workout.'
-    err.message = message
+    logger.error('Unable to update workout.')
     next(err)
   }
 }
@@ -123,8 +117,7 @@ const deleteWorkout = async(req,res,next)=>{
     .setHeader('Content-Type','application/json')
     .json(result)
   } catch (err) {
-    const message = 'Unable to delete workout.'
-    err.message = message
+    logger.error('Unable to delete workout.')
     next(err)
   }
 }
