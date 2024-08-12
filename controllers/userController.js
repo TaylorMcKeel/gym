@@ -38,12 +38,13 @@ const getUsers = async(req,res,next)=>{
 
   try {
     const result = await User.find({},filter,options)
+    logger.info(`Found ${result.length} users :: getUsers, userController.js`)
     res
     .status(200)
     .setHeader('Content-Typer','application/json')
     .json(result)
   } catch (err) {
-    logger.error('Unable to get all users.')
+    logger.error('Unable to get all users :: getUsers, userController.js')
     next(err)
   }
 }
@@ -51,12 +52,13 @@ const getUsers = async(req,res,next)=>{
 const createUser = async(req,res,next)=>{
   try {
     const result = await User.create(req.body)
+    logger.info(`Created new user with id of ${result._id} :: createUser, userController.js`)
     res
     .status(200)
     .setHeader('Content-Type', 'application/json')
     .json(result)
   } catch (err) {
-    logger.error('Unable to create user.')
+    logger.error('Unable to create user :: createUser, userController.js')
     next(err)
   }
 }
@@ -64,12 +66,13 @@ const createUser = async(req,res,next)=>{
 const deleteUsers = async(req,res,next)=>{
   try {
     const result = await User.deleteMany()
+    logger.info(`Deleted all users :: deleteUsers, userController.js`)
     res
     .status(200)
     .setHeader('Content-Type','application/json')
     .json(result)
   } catch (err) {
-    logger.error('Unable to delete all users.')
+    logger.error('Unable to delete all users :: deleteUsers, userController.js')
     next(err)
   }
 }
@@ -80,12 +83,13 @@ const deleteUsers = async(req,res,next)=>{
 const getUser = async(req,res,next)=>{
   try {
     const result = await User.findById(req.userId)
+    logger.info(`Found user with id of ${req.userId} :: getUser, userController.js`)
     res
     .status(200)
     .setHeader('Content-Type','application/json')
     .json(result)
   } catch (err) {
-    logger.error(`Unable to get user using userID ${req.userId}`)
+    logger.error(`Unable to get user using userID ${req.userId} :: getUser, userController.js`)
     next(err)
   }
 }
@@ -93,12 +97,13 @@ const getUser = async(req,res,next)=>{
 const updateUser = async(req,res,next)=>{
   try {
     const result = await User.findByIdAndUpdate(req.params.userId, req.body,{new:true}) //takes id, new body, new tells it to send new document not the old one
+    logger.info(`Updated user with id of ${req.params.userId} :: updateUser, userController.js`)
     res
     .status(200)
     .setHeader('Content-Tye','application/json')
     .json(result)
   } catch (err) {
-    logger.error('Unable to update user information.')
+    logger.error(`Unable to update user information for user with id ${req.params.userId} :: updateUser, userController.js `)
     next(err)
   }
 }
@@ -106,16 +111,18 @@ const updateUser = async(req,res,next)=>{
 const deleteUser = async(req,res,next)=>{
   try {
     const result = await User.findByIdAndDelete(req.params.userId)
+    logger.info(`Deleted user with id of ${req.params.userId} :: deleteUser, userController.js`)
     res
     .status(200)
     .setHeader('Content-Type','application/json')
     .json(result)
   } catch (err) {
-    logger.error('Unable to delete user.')
+    logger.error(`Unable to delete user with id of ${req.params.userId} :: deleteUser, userController.js`)
     next(err)
   }
 }
 
+//not sure what exactly to log here.. shoudl I log errors for !user and paswordMatch and a success at the end if both pass?
 const login = async (req,res,next)=>{
   const {email, password} = req.body
   if( !email || !password){
@@ -144,6 +151,7 @@ const sendTokenResponse = (user, statusCode, res)=>{
     expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRE * CONVERT_TO_MILLISECONDS),
     httpOnly: true,
   }
+  logger.info(`User with id of ${user._id} has logged in :: sendTokenResponse, userController.js`)
   res
     .status(statusCode)
     .cookie('token', token, options)
