@@ -30,7 +30,7 @@ const getExercises = async(req,res,next)=>{
     .setHeader('Content-Type','application/json')
     .json(result)
   } catch (err) {
-    logger.error('No exercise found with that that criteria.')
+    logger.error(`Unable to get all exercises :: getExercises, exercisecontroller.js`)
     next(err)
   }
 }
@@ -45,7 +45,7 @@ const getUserExercises = async(req,res,next)=>{
     .setHeader('Content-Type','application/json')
     .json(result)
   } catch (err) {
-    logger.error('No exercise found for that user.')
+    logger.error(`Unable to get exercises for user with id ${req.userId} :: getUserExercises, exercisecontroller.js`)
     next(err)
   }
 
@@ -61,7 +61,7 @@ const createExercise = async(req,res,next)=>{
     .setHeader('Content-Type','application/json')
     .json(result)
   } catch (err) {
-    logger.error('Unable to create exercise.')
+    logger.error(`Unable to create exercise :: createExercise, exercisecontroller.js`)
     next(err)
   }
 }
@@ -75,7 +75,7 @@ const deleteExercises = async(req,res,next)=>{
     .setHeader('Content-Type','applcation/json')
     .json(result)
   } catch (err) {
-    logger.error('Unable to delete all exercises')
+    logger.error(`Unable to delete all exercises :: deleteExercises, exercisecontroller.js`)
     next(err)
   }
 }
@@ -91,7 +91,7 @@ const getExercise = async(req,res,next)=>{
     .setHeader('Content-Type','application/json')
     .json(result)
   } catch (err) {
-    logger.error('No exercise found with that id.')
+    logger.error(`Unable to get exercise with id of ${req.params.exerciseId} :: getExercise, exercisecontroller.js`)
     next(err)
   }
 }
@@ -105,7 +105,7 @@ const updateExercise = async(req,res,next)=>{
     .setHeader('Content-Type','application/json')
     .json(result)
   } catch (err) {
-    logger.error('Unable to update exercise.')
+    logger.error(`Unable to update exercise with id of ${req.params.exerciseId} :: updateExercise, exercisecontroller.js`)
     next(err)
   }
 }
@@ -119,7 +119,7 @@ const deleteExercise = async(req,res,next)=>{
     .setHeader('Content-Type','application/json')
     .json(result)
   } catch (err) {
-    logger.error('Unable to delete exercise.')
+    logger.error(`Unable to delete exercise with id of ${req.params.exerciseId} :: deleteExercise, exercisecontroller.js`)
     next(err)
   }
 }
@@ -135,7 +135,7 @@ const getExerciseStats = async(req,res,next)=>{
     .setHeader('Content-Type','application/json')
     .json(result.stats)
   } catch (err) {
-    logger.error('Unable to get all stats.')
+    logger.error(`Unable to get stats for exercise with id of ${req.params.exerciseId} :: getExerciseStats, exercisecontroller.js`)
     next(err)
   }
 }
@@ -151,7 +151,7 @@ const deleteExerciseStats = async(req,res,next)=>{
     .setHeader('Content-Type','application/json')
     .json({message: `Deleted all stats for exercise id of ${req.params.id}`})
   } catch (err) {
-    logger.error('Unable to delete the stats for this exercise.')
+    logger.error(`Unable to delete all stats for exercise with id of ${req.params.id} :: deleteExerciseStats, exercisecontroller.js`) 
     next(err)
   }
 }
@@ -167,7 +167,7 @@ const createExerciseStat = async(req,res,next)=>{
     .setHeader('Content-Type','application/json')
     .json(result.stats)
   } catch (err) {
-    logger.error('Unable to create stats for this exercise.')
+    logger.error(`Unable to create stat for exercise with id of ${req.params.exerciseId} :: createExerciseStat, exercisecontroller.js`)
     next(err)
   }
 }
@@ -185,7 +185,7 @@ const getExerciseStat = async(req,res,next)=>{
     .setHeader('Content-Type','application/json')
     .json(stat)
   } catch (err) {
-    logger.error('Unable to get stats for this exercise.')
+    logger.error(`Unable to get stat with id ${req.params.statId} for exercise with id ${req.params.exerciseId} :: getExerciseStat, exercisecontroller.js`)
     next(err)
   }
 }
@@ -209,7 +209,7 @@ const updateExerciseStat = async(req,res,next)=>{
     .setHeader('Content-Type','application/json')
     .json(stat)
   } catch (err) {
-    logger.error('Unable to update stat for this exercise.')
+    logger.error(`Unable to update stat with id ${req.params.statId} for  exercise with id ${req.params.exerciseId} :: updateExerciseStat, exercisecontroller.js`)
     next(err)
   }
 }
@@ -233,7 +233,7 @@ const deleteExerciseStat = async(req,res,next)=>{
     .setHeader('Content-Type','application/json')
     .json(stat)
   } catch (err) {
-    logger.error('Unable to delete stat for this exercise.')
+    logger.error(`Unable to delete stat with id ${req.params.statId} for exercise with id ${req.params.exerciseId} :: deleteExerciseStat, exercisecontroller.js`)
     next(err)
   }
 }
