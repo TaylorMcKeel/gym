@@ -88,6 +88,8 @@ const getUser = async(req,res,next)=>{
     .setHeader('Content-Type','application/json')
     .json(result)
   } catch (err) {
+    const message= `Unable to get user using userID ${req.userId}`
+    err.message = message
     next(err)
   }
 }
