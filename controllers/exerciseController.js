@@ -1,3 +1,4 @@
+const { log } = require('winston')
 const Exercise = require('../models/Exercise')
 const logger = require('./utils/logger')
 
@@ -38,6 +39,7 @@ const getUserExercises = async(req,res,next)=>{
 
   try {
     const result = await Exercise.find({creator: req.userId})
+    logger.info(`Found ${result.length} exercises for user with id ${req.userId} :: getUserExercises, exercisecontroller.js`)
     res
     .status(200)
     .setHeader('Content-Type','application/json')
@@ -53,6 +55,7 @@ const getUserExercises = async(req,res,next)=>{
 const createExercise = async(req,res,next)=>{
   try {
     const result = await Exercise.create(req.body)
+    logger.info(`Created new exercise with id of ${result._id} :: createExercise, exercisecontroller.js`)
     res
     .status(200)
     .setHeader('Content-Type','application/json')
@@ -66,6 +69,7 @@ const createExercise = async(req,res,next)=>{
 const deleteExercises = async(req,res,next)=>{
   try {
     const result = await Exercise.deleteMany()
+    logger.info(`Deleted all exercises :: deleteExercises, exercisecontroller.js`)
     res
     .status(200)
     .setHeader('Content-Type','applcation/json')
@@ -81,6 +85,7 @@ const deleteExercises = async(req,res,next)=>{
 const getExercise = async(req,res,next)=>{
   try {
     const result = await Exercise.findById(req.params.exerciseId)
+    logger.info(`Found exercise with id of ${result._id} :: getExercise, exercisecontroller.js`)
     res
     .status(200)
     .setHeader('Content-Type','application/json')
@@ -94,6 +99,7 @@ const getExercise = async(req,res,next)=>{
 const updateExercise = async(req,res,next)=>{
   try {
     const result = await Exercise.findByIdAndUpdate(req.params.exerciseId, req.body, {new: true})
+    logger.info(`Updated exercise with id of ${result._id} :: updateExercise, exercisecontroller.js`)
     res
     .status(200)
     .setHeader('Content-Type','application/json')
@@ -107,6 +113,7 @@ const updateExercise = async(req,res,next)=>{
 const deleteExercise = async(req,res,next)=>{
   try {
     const result = await Exercise.findByIdAndDelete(req.params.exerciseId)
+    logger.info(`Deleted exercise with id of ${result._id} :: deleteExercise, exercisecontroller.js`)
     res
     .status(200)
     .setHeader('Content-Type','application/json')
@@ -122,6 +129,7 @@ const deleteExercise = async(req,res,next)=>{
 const getExerciseStats = async(req,res,next)=>{
   try {
     const result = await Exercise.findById(req.params.exerciseId)
+    logger.info(`Found ${result.stats.length} stats for exercise with id of ${result._id} :: getExerciseStats, exercisecontroller.js`)
     res
     .status(200)
     .setHeader('Content-Type','application/json')
@@ -137,6 +145,7 @@ const deleteExerciseStats = async(req,res,next)=>{
     const result = await Exercise.findByIdAndDelete(req.params.exerciseId) 
     result.stats=[]
     await result.save()
+    logger.info(`Deleted all stats for exercise with id of ${req.params.id} :: deleteExerciseStats, exercisecontroller.js`)
     res
     .status(200)
     .setHeader('Content-Type','application/json')
@@ -152,6 +161,7 @@ const createExerciseStat = async(req,res,next)=>{
     const result = await Exercise.findById(req.params.exerciseId)
     result.stats.push(req.body)
     await result.save()
+    logger.info(`Created new stat for exercise with id of ${result._id} :: createExerciseStat, exercisecontroller.js`)
     res
     .status(200)
     .setHeader('Content-Type','application/json')
@@ -169,6 +179,7 @@ const getExerciseStat = async(req,res,next)=>{
     const result = await Exercise.findById(req.params.exerciseId)
     let stat = result.stats.find(stat => (stat._id).equals(req.params.statId))
     if(!stat) stat = {message: `No stat found with id ${req.params.statId}`}
+    logger.info(`Found stat with id of ${stat._id} for exercise with id of ${result._id} :: getExerciseStat, exercisecontroller.js`)
     res
     .status(200)
     .setHeader('Content-Type','application/json')
@@ -188,7 +199,9 @@ const updateExerciseStat = async(req,res,next)=>{
       result.stats.splice(statIndexPosition,1,req.body)
       stat = req.body
       await result.save()
+      logger.info(`Updated stat with id of ${stat._id} for exercise with id of ${result._id} :: updateExerciseStat, exercisecontroller.js`)
     }else{
+      //should logger.error go here?
       stat = {message: `No stat found with id ${req.params.statId}`}
     }
     res
@@ -210,7 +223,9 @@ const deleteExerciseStat = async(req,res,next)=>{
       result.stats.splice(statIndexPosition,1)
       stat = {message: `Successfully deleted stat with id ${req.params.statId}`}
       await result.save()
+      logger.info(`Deleted stat with id of ${req.params.statId} for exercise with id of ${result._id} :: deleteExerciseStat, exercisecontroller.js`)
     }else{
+      //same question as above.. should logger.error go here?
       stat = {message: `No stat found with id ${req.params.statId}`}
     }
     res

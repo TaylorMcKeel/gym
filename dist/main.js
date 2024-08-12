@@ -4671,7 +4671,6 @@ var Login = function Login() {
       return _ref.apply(this, arguments);
     };
   }();
-  //
   var handleChange = function handleChange(ev) {
     var _ev$target = ev.target,
       name = _ev$target.name,
