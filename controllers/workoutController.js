@@ -1,3 +1,4 @@
+const { default: logger } = require('redux-logger')
 const Workout = require('../models/Workout')
 
 
@@ -29,12 +30,13 @@ const getWorkouts = async(req,res,next)=>{
 
   try {
     const result = await Workout.find({}, filter, options)
+    logger.info(`Found ${result.length} workouts :: getWorkouts, workoutController.js`)
     res
     .status(200)
     .setHeader('Content-Type','application/json')
     .json(result)
   } catch (err) {
-    logger.error('Unable to get all workouts.')
+    logger.error('Unable to get all workouts :: getWorkouts, workoutController.js')
     next(err)
   }
 }
@@ -43,12 +45,13 @@ const getUserWorkouts = async(req,res,next)=>{
 
   try {
     const result = await Workout.find({creator: req.userId})
+    logger.info(`Found ${result.length} workouts for user with id ${req.userId} :: getUserWorkouts, workoutController.js`)
     res
     .status(200)
     .setHeader('Content-Type','application/json')
     .json(result)
   } catch (err) {
-    logger.error('Unable to get workouts for this user.')
+    logger.error(`Unable to get workouts for user with id ${req.userId} :: getUserWorkouts, workoutController.js`)
     next(err)
   }
 
@@ -57,12 +60,13 @@ const getUserWorkouts = async(req,res,next)=>{
 const createWorkout = async(req,res,next)=>{
   try {
     const result = await Workout.create(req.body)
+    logger.info(`Created new workout with id of ${result._id} :: createWorkout, workoutController.js`)
     res
     .status(200)
     .setHeader('Content-Type','application/json')
     .json(result)
   } catch (err) {
-    logger.error('Unable to create workout.')
+    logger.error('Unable to create workout :: createWorkout, workoutController.js')
     next(err)
   }
 }
@@ -70,12 +74,13 @@ const createWorkout = async(req,res,next)=>{
 const deleteWorkouts = async(req,res,next)=>{
   try {
     const result = await Workout.deleteMany()
+    logger.info('Deleted all workouts :: deleteWorkouts, workoutController.js')
     res
     .status(200)
     .setHeader('Content-Type','application/json')
     .json(result)
   } catch (err) {
-    logger.error('Unable to delete all workouts.')
+    logger.error('Unable to delete all workouts :: deleteWorkouts, workoutController.js')
     next(err)
   }
 }
@@ -86,12 +91,13 @@ const deleteWorkouts = async(req,res,next)=>{
 const getWorkout = async(req,res,next)=>{
   try {
     const result = await Workout.findById(req.params.workoutId)
+    logger.info(`Found workout with id of ${result._id} :: getWorkout, workoutController.js`)
     res
     .status(200)
     .setHeader('Content-Type','application/json')
     .json(result)
   } catch (err) {
-    logger.error('No workout found with that criteria.')
+    logger.error(`Unable to get workout using workoutID ${req.params.workoutId} :: getWorkout, workoutController.js`)
     next(err)
   }
 }
@@ -99,12 +105,13 @@ const getWorkout = async(req,res,next)=>{
 const updateWorkout = async(req,res,next)=>{
   try {
     const result = await Workout.findByIdAndUpdate(req.params.workoutId, req.body, {new:true})
+    logger.info(`Updated workout with id of ${req.params.workoutId} :: updateWorkout, workoutController.js`)
     res
     .status(200)
     .setHeader('Content-Type','application/json')
     .json(result)
   } catch (err) {
-    logger.error('Unable to update workout.')
+    logger.error(`Unable to update workout with id of ${req.params.workoutId} :: updateWorkout, workoutController.js`)
     next(err)
   }
 }
@@ -112,12 +119,13 @@ const updateWorkout = async(req,res,next)=>{
 const deleteWorkout = async(req,res,next)=>{
   try {
     const result = await Workout.findByIdAndDelete(req.parama.workoutId)
+    logger.info(`Deleted workout with id of ${req.params.workoutId} :: deleteWorkout, workoutController.js`)
     res
     .status(200)
     .setHeader('Content-Type','application/json')
     .json(result)
   } catch (err) {
-    logger.error('Unable to delete workout.')
+    logger.error(`Unable to delete workout with id of ${req.params.workoutId} :: deleteWorkout, workoutController.js`)
     next(err)
   }
 }
