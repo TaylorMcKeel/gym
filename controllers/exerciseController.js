@@ -1,4 +1,3 @@
-const { log } = require('winston')
 const Exercise = require('../models/Exercise')
 const logger = require('./utils/logger')
 

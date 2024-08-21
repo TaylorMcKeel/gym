@@ -41,10 +41,10 @@ const getUsers = async(req,res,next)=>{
     logger.info(`Found ${result.length} users :: getUsers, userController.js`)
     res
     .status(200)
-    .setHeader('Content-Typer','application/json')
+    .setHeader('Content-Type','application/json')
     .json(result)
   } catch (err) {
-    logger.error('Unable to get all users :: getUsers, userController.js')
+    logger.error(`Unable to get all users :: getUsers, userController.js - Error ${err.message}`)
     next(err)
   }
 }
