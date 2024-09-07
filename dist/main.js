@@ -4416,24 +4416,23 @@ var Exercises = function Exercises() {
               return axios__WEBPACK_IMPORTED_MODULE_2__["default"].get('/api/workout/userWorkouts');
             case 3:
               res = _context2.sent;
-              console.log(res.data);
               setExercisesData(function (exercisesData) {
                 return _objectSpread(_objectSpread({}, exercisesData), {}, {
                   workouts: res.data
                 });
               });
-              _context2.next = 12;
+              _context2.next = 11;
               break;
-            case 8:
-              _context2.prev = 8;
+            case 7:
+              _context2.prev = 7;
               _context2.t0 = _context2["catch"](0);
               errorMessage = "getWorkouts :: Exercises.js - Error when fetching all workouts from backend API. Error: ".concat(_context2.t0, ".");
               console.log(errorMessage);
-            case 12:
+            case 11:
             case "end":
               return _context2.stop();
           }
-        }, _callee2, null, [[0, 8]]);
+        }, _callee2, null, [[0, 7]]);
       }));
       return function getWorkouts() {
         return _ref2.apply(this, arguments);
@@ -4442,6 +4441,7 @@ var Exercises = function Exercises() {
     getExercises();
     getWorkouts();
   }, []);
+  //TO-DO: update navigate routes with id
   var navigateWorkout = function navigateWorkout(workoutId) {
     navigate("/workouts/");
   };
@@ -4451,6 +4451,12 @@ var Exercises = function Exercises() {
   var navigateExerciseForm = function navigateExerciseForm() {
     navigate("/newExercise");
   };
+  var handleWorkoutClick = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (curr) {
+    navigateWorkout(curr._id);
+  }, [curr._id, navigateWorkout]);
+  var handleButtonClick = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (curr) {
+    navigateStats(curr.id);
+  }, [curr.id, navigateStats]);
   if (exercisesData.exercises.length === 0) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", null, "Your Exercises"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
       onClick: navigateExerciseForm
@@ -4459,22 +4465,11 @@ var Exercises = function Exercises() {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", null, "Your Exercises"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
       onClick: navigateExerciseForm
     }, "Add New Exercise"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", null, exercisesData.exercises.map(function (curr) {
-      // let currWorkout 
-      // exercisesData.workouts.forEach((item)=>{
-      //   if(item._id === curr.workout){
-      //     currWorkout = item
-      //   }
-      // })
-
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h3", null, "Title: ", curr.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, "Category: ", curr.category), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, "Workout: ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
-        onClick: function onClick() {
-          return navigateWorkout(curr._id);
-        }
+        onClick: handleWorkoutClick
       }, curr.title)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
-        onClick: function onClick() {
-          return navigateStats(curr.id);
-        }
-      }, "See Stats")) //add functionality to open to exercise page with stats.
+        onClick: handleButtonClick
+      }, "See Stats")) // TO-DO: add functionality to open to exercise page with stats.
       ;
     })));
   }

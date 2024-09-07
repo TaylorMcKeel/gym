@@ -55,11 +55,11 @@ const Exercises = ()=>{
     navigate(`/newExercise`)
   }
 
-  const handleWorkoutClick = useCallback(()=>{
+  const handleWorkoutClick = useCallback((curr)=>{
     navigateWorkout(curr._id);
   }, [curr._id, navigateWorkout]);
 
-  const handleButtonClick = useCallback(()=>{
+  const handleButtonClick = useCallback((curr)=>{
     navigateStats(curr.id);
   },[curr.id, navigateStats])
   
