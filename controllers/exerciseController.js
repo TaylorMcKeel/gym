@@ -194,15 +194,15 @@ const updateExerciseStat = async(req,res,next)=>{
   try {
     const result = await Exercise.findById(req.params.exerciseId)
     let stat = result.stats.find(stat => (stat._id).equals(req.params.statId))
-    if(stat){
+    if(stat.length){
       const statIndexPosition = result.stats.indexOf(stat)
       result.stats.splice(statIndexPosition,1,req.body)
       stat = req.body
       await result.save()
       logger.info(`Updated stat with id of ${stat._id} for exercise with id of ${result._id} :: updateExerciseStat, exercisecontroller.js`)
     }else{
-      //should logger.error go here?
-      stat = {message: `No stat found with id ${req.params.statId}`}
+      logger.info(`No stat found with stat id ${req.params.statId} and exercise id ${req.params.exerciseId} :: updateExerciseStat, exercisecontroller.js`);
+    
     }
     res
     .status(200)
