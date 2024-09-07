@@ -29,7 +29,6 @@ const Exercises = ()=>{
     const getWorkouts = async()=>{
       try {
         const res = await axios.get('/api/workout/userWorkouts')
-        console.log(res.data)
         setExercisesData((exercisesData)=>({
           ...exercisesData,
           workouts: res.data
@@ -70,20 +69,14 @@ const Exercises = ()=>{
         <button onClick={navigateExerciseForm}>Add New Exercise</button>
         <ul>
           {exercisesData.exercises.map(curr=>{
-            // let currWorkout 
-            // exercisesData.workouts.forEach((item)=>{
-            //   if(item._id === curr.workout){
-            //     currWorkout = item
-            //   }
-            // })
-        
+  
             return(
               <li >
                 <h3>Title: {curr.title}</h3>
                 <p>Category: {curr.category}</p>
                 <p>Workout: <button onClick={()=>navigateWorkout(curr._id)}>{curr.title}</button></p>
                 <button onClick={()=>navigateStats(curr.id)}>See Stats</button>       
-              </li> //add functionality to open to exercise page with stats.
+              </li> // TO-DO: add functionality to open to exercise page with stats.
             )
           })}
         </ul>
