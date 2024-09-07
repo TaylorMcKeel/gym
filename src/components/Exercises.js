@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useCallback} from 'react'
 import {useNavigate} from "react-router-dom"
 import axios from "axios"
 
@@ -42,7 +42,7 @@ const Exercises = ()=>{
     getExercises()
     getWorkouts()
   },[])
-  
+  //TO-DO: update navigate routes with id
   const navigateWorkout = (workoutId)=>{
     navigate(`/workouts/`)
   }
@@ -54,6 +54,15 @@ const Exercises = ()=>{
   const navigateExerciseForm = ()=>{
     navigate(`/newExercise`)
   }
+
+  const handleWorkoutClick = useCallback(()=>{
+    navigateWorkout(curr._id);
+  }, [curr._id, navigateWorkout]);
+
+  const handleButtonClick = useCallback(()=>{
+    navigateStats(curr.id);
+  },[curr.id, navigateStats])
+  
   if(exercisesData.exercises.length === 0){
     return(
       <div>
@@ -74,8 +83,8 @@ const Exercises = ()=>{
               <li >
                 <h3>Title: {curr.title}</h3>
                 <p>Category: {curr.category}</p>
-                <p>Workout: <button onClick={()=>navigateWorkout(curr._id)}>{curr.title}</button></p>
-                <button onClick={()=>navigateStats(curr.id)}>See Stats</button>       
+                <p>Workout: <button onClick={handleWorkoutClick}>{curr.title}</button></p>
+                <button onClick={handleButtonClick}>See Stats</button>       
               </li> // TO-DO: add functionality to open to exercise page with stats.
             )
           })}
