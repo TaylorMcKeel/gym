@@ -72,7 +72,7 @@ const deleteExercises = async(req,res,next)=>{
     logger.info(`Deleted all exercises :: deleteExercises, exercisecontroller.js`)
     res
     .status(202)
-    .setHeader('Content-Type','applcation/json')
+    .setHeader('Content-Type','application/json')
     .json(result)
   } catch (err) {
     logger.error(`Unable to delete all exercises :: deleteExercises, exercisecontroller.js`)
