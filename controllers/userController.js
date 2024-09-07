@@ -68,7 +68,7 @@ const deleteUsers = async(req,res,next)=>{
     const result = await User.deleteMany()
     logger.info(`Deleted all users :: deleteUsers, userController.js`)
     res
-    .status(200)
+    .status(202)
     .setHeader('Content-Type','application/json')
     .json(result)
   } catch (err) {
@@ -113,7 +113,7 @@ const deleteUser = async(req,res,next)=>{
     const result = await User.findByIdAndDelete(req.params.userId)
     logger.info(`Deleted user with id of ${req.params.userId} :: deleteUser, userController.js`)
     res
-    .status(200)
+    .status(202)
     .setHeader('Content-Type','application/json')
     .json(result)
   } catch (err) {

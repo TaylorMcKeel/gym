@@ -37,6 +37,7 @@ const getExercises = async(req,res,next)=>{
 const getUserExercises = async(req,res,next)=>{
 
   try {
+    console.log(typeof logger.error)
     const result = await Exercise.find({creator: req.userId})
     logger.info(`Found ${result.length} exercises for user with id ${req.userId} :: getUserExercises, exercisecontroller.js`)
     res
@@ -70,7 +71,7 @@ const deleteExercises = async(req,res,next)=>{
     const result = await Exercise.deleteMany()
     logger.info(`Deleted all exercises :: deleteExercises, exercisecontroller.js`)
     res
-    .status(200)
+    .status(202)
     .setHeader('Content-Type','applcation/json')
     .json(result)
   } catch (err) {
@@ -114,7 +115,7 @@ const deleteExercise = async(req,res,next)=>{
     const result = await Exercise.findByIdAndDelete(req.params.exerciseId)
     logger.info(`Deleted exercise with id of ${result._id} :: deleteExercise, exercisecontroller.js`)
     res
-    .status(200)
+    .status(202)
     .setHeader('Content-Type','application/json')
     .json(result)
   } catch (err) {
@@ -146,7 +147,7 @@ const deleteExerciseStats = async(req,res,next)=>{
     await result.save()
     logger.info(`Deleted all stats for exercise with id of ${req.params.id} :: deleteExerciseStats, exercisecontroller.js`)
     res
-    .status(200)
+    .status(202)
     .setHeader('Content-Type','application/json')
     .json({message: `Deleted all stats for exercise id of ${req.params.id}`})
   } catch (err) {

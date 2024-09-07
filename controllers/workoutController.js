@@ -76,7 +76,7 @@ const deleteWorkouts = async(req,res,next)=>{
     const result = await Workout.deleteMany()
     logger.info('Deleted all workouts :: deleteWorkouts, workoutController.js')
     res
-    .status(200)
+    .status(202)
     .setHeader('Content-Type','application/json')
     .json(result)
   } catch (err) {
@@ -121,7 +121,7 @@ const deleteWorkout = async(req,res,next)=>{
     const result = await Workout.findByIdAndDelete(req.parama.workoutId)
     logger.info(`Deleted workout with id of ${req.params.workoutId} :: deleteWorkout, workoutController.js`)
     res
-    .status(200)
+    .status(202)
     .setHeader('Content-Type','application/json')
     .json(result)
   } catch (err) {
