@@ -40,8 +40,9 @@ app.get('*', (req, res) => {
 const PORT = process.env.PORT || 5001
 
 //makes server go live
+let server;
 const startServer = (port)=>{
-  const server = app.listen(port, ()=>{
+  server = app.listen(port, ()=>{
     console.log(`Server is listening on PORT: ${port}`)
   })
   return server
