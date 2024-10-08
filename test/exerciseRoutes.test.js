@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 global.TextEncoder = require('util').TextEncoder;
 global.TextDecoder = require('util').TextDecoder;
 
-
+let userId;
 let server;
 let port =0;
 let token;
@@ -31,6 +31,7 @@ beforeAll(async () => {
     email: 'test@user.com',
     password: 'password'
   }
+  userId = testUser._id;
   token = jwt.sign(testUser, process.env.JWT_SECRET, { expiresIn: '1d' });
 });
 
@@ -47,10 +48,18 @@ afterAll(async () => {
   });
 });
 
-describe('Test GET request for all exercises', () => {
+describe('Test requests for exercises', () => {
   test('GET /api/exercise should return 200', async () => {
     const response = await request(server)
       .get('/api/exercise')
+      .set('Cookie', `token=${token}`);
+
+    expect(response.status).toBe(200);
+  });
+
+  test('GET /api/exercise/userExercises should return 200', async () => {
+    const response = await request(server)
+      .get('/api/exercise/userExercises')
       .set('Cookie', `token=${token}`);
 
     expect(response.status).toBe(200);

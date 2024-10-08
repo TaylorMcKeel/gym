@@ -53,6 +53,7 @@ if (require.main === module) {
   startServer(PORT);
 }
 //catches any unhandled objections that arent caught by middleware
+//how to give acccess to server below
 process.on('unhandledRejection', (err, promise)=>{
   console.log(`Error: ${err.message}`)
   server.close(()=> process.exit(1))
