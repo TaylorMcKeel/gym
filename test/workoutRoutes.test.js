@@ -1,5 +1,7 @@
 const request = require('supertest');
+const jwt = require('jsonwebtoken');
 const app = require('../server');
+const {startServer} = require('../server');
 const mongoose = require('mongoose');
 global.TextEncoder = require('util').TextEncoder;
 global.TextDecoder = require('util').TextDecoder;
@@ -7,6 +9,9 @@ global.TextDecoder = require('util').TextDecoder;
 
 let server;
 let port =0;
+let token;
+
+jest.setTimeout(10000); 
 
 beforeAll(async () => {
   await mongoose.connect(process.env.MONGO_URL, {
@@ -14,11 +19,21 @@ beforeAll(async () => {
       useUnifiedTopology: true,
   });
 
+  server = startServer(port);
+  port = server.address().port;
+  console.log(`Test server is running on port ${port}`);
+  
 
-  server = app.listen(port, () => {
-    port = server.address().port;
-    console.log(`Test server is running on port ${port}`);
-  })
+  const testUser = {
+    _id: new mongoose.Types.ObjectId(),
+    userName: 'testUser',
+    firstName: 'Test',
+    lastName: 'User',
+    email: 'test@user.com',
+    password: 'password'
+  }
+  token = jwt.sign(testUser, process.env.JWT_SECRET, { expiresIn: '1d' });
+  console.log(token);
 });
 
 afterAll(async () => {
@@ -36,7 +51,10 @@ afterAll(async () => {
 
 describe('Test GET request for all workouts', () => {
   test('GET /api/workout should return 200', async () => {
-    const response = await request(server).get('/api/workout');
+    const response = await request(server)
+      .get('/api/workout')
+      .set('Cookie', `token=${token}`);
+
     expect(response.status).toBe(200);
   });
 });

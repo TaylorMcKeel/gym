@@ -1,5 +1,6 @@
 const request = require('supertest');
 const app = require('../server');
+const {startServer} = require('../server');
 const mongoose = require('mongoose');
 global.TextEncoder = require('util').TextEncoder;
 global.TextDecoder = require('util').TextDecoder;
@@ -15,10 +16,9 @@ beforeAll(async () => {
   });
 
 
-  server = app.listen(port, () => {
-    port = server.address().port;
-    console.log(`Test server is running on port ${port}`);
-  })
+  server = startServer(port);
+  port = server.address().port;
+  console.log(`Test server is running on port ${port}`);
 });
 
 afterAll(async () => {

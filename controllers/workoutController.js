@@ -1,4 +1,4 @@
-const { default: logger } = require('redux-logger')
+const logger = require('./utils/logger')
 const Workout = require('../models/Workout')
 
 

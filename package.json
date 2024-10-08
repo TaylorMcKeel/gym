@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test":  "PORT=5002 jest --detectOpenHandles",
+    "test":  "jest --detectOpenHandles",
     "start": "nodemon server",
     "build": "webpack",
     "build:watch": "webpack --watch",
