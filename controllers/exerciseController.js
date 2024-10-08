@@ -37,7 +37,7 @@ const getExercises = async(req,res,next)=>{
 const getUserExercises = async(req,res,next)=>{
 
   try {
-    console.log(typeof logger.error)
+    
     const result = await Exercise.find({creator: req.userId})
     logger.info(`Found ${result.length} exercises for user with id ${req.userId} :: getUserExercises, exercisecontroller.js`)
     res
