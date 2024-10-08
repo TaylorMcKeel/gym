@@ -99,7 +99,17 @@ describe('Test GET request for all workouts', () => {
   });
 
   //update
+  test('PUT /api/workout/:id should return 200', async () => {
+    const response = await request(server)
+      .put(`/api/workout/${workoutId}`)
+      .set('Cookie', `token=${token}`)
+      .send({
+        title: 'Updated Test Workout',
+        creator: userId
+      });
 
+    expect(response.status).toBe(200);
+  });
   //delete one
 });
 
