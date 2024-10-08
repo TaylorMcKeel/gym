@@ -57,7 +57,15 @@ describe('Test requests for exercises', () => {
     expect(response.status).toBe(200);
   });
 
-  test('POST /api/exercise should return 200', async () => {
+  test('DELETE /api/exercise should return 202', async () => {
+    const response = await request(server)
+      .delete('/api/exercise')
+      .set('Cookie', `token=${token}`);
+
+    expect(response.status).toBe(202);
+  });
+
+  test('POST /api/exercise should return 201', async () => {
     const response = await request(server)
       .post('/api/exercise')
       .set('Cookie', `token=${token}`)
