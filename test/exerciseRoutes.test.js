@@ -5,6 +5,8 @@ const mongoose = require('mongoose');
 global.TextEncoder = require('util').TextEncoder;
 global.TextDecoder = require('util').TextDecoder;
 
+
+let exerciseId;
 let userId;
 let server;
 let port =0;
@@ -74,7 +76,7 @@ describe('Test requests for exercises', () => {
         category: 'ARMS',
         creator: userId
       });
-
+    exerciseId = response.body._id;
     expect(response.status).toBe(201);
   });
 
@@ -82,6 +84,19 @@ describe('Test requests for exercises', () => {
     const response = await request(server)
       .get('/api/exercise/userExercises')
       .set('Cookie', `token=${token}`)
+
+    expect(response.status).toBe(200);
+  });
+
+  test('PUT /api/exercise/:id should return 200', async () => {
+    const response = await request(server)
+      .put(`/api/exercise/${exerciseId}`)
+      .set('Cookie', `token=${token}`)
+      .send({
+        title: 'New Test Exercise',
+        category: 'ARMS',
+        creator: userId
+      });
 
     expect(response.status).toBe(200);
   });
