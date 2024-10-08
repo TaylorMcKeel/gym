@@ -118,7 +118,7 @@ const updateWorkout = async(req,res,next)=>{
 
 const deleteWorkout = async(req,res,next)=>{
   try {
-    const result = await Workout.findByIdAndDelete(req.parama.workoutId)
+    const result = await Workout.findByIdAndDelete(req.params.workoutId)
     logger.info(`Deleted workout with id of ${req.params.workoutId} :: deleteWorkout, workoutController.js`)
     res
     .status(202)

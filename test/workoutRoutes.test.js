@@ -50,7 +50,7 @@ afterAll(async () => {
   });
 });
 
-describe('Test GET request for all workouts', () => {
+describe('Test requests for workouts', () => {
   test('GET /api/workout should return 200', async () => {
     const response = await request(server)
       .get('/api/workout')
@@ -98,7 +98,7 @@ describe('Test GET request for all workouts', () => {
     expect(response.status).toBe(200);
   });
 
-  //update
+  
   test('PUT /api/workout/:id should return 200', async () => {
     const response = await request(server)
       .put(`/api/workout/${workoutId}`)
@@ -110,6 +110,13 @@ describe('Test GET request for all workouts', () => {
 
     expect(response.status).toBe(200);
   });
-  //delete one
+  
+  test('DELETE /api/workout/:id should return 202', async () => {
+    const response = await request(server)
+      .delete(`/api/workout/${workoutId}`)
+      .set('Cookie', `token=${token}`);
+
+    expect(response.status).toBe(202);
+  });
 });
 
