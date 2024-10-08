@@ -32,7 +32,6 @@ beforeAll(async () => {
     password: 'password'
   }
   token = jwt.sign(testUser, process.env.JWT_SECRET, { expiresIn: '1d' });
-
 });
 
 afterAll(async () => {
@@ -48,13 +47,12 @@ afterAll(async () => {
   });
 });
 
-describe('Test GET request for all workouts', () => {
-  test('GET /api/workout should return 200', async () => {
+describe('Test GET request for all exercises', () => {
+  test('GET /api/exercise should return 200', async () => {
     const response = await request(server)
-      .get('/api/workout')
+      .get('/api/exercise')
       .set('Cookie', `token=${token}`);
 
     expect(response.status).toBe(200);
   });
 });
-
