@@ -54,12 +54,12 @@ const createUser = async(req,res,next)=>{
     const result = await User.create(req.body)
     logger.info(`Created new user with id of ${result._id} :: createUser, userController.js`)
     res
-    .status(200)
+    .status(201)
     .setHeader('Content-Type', 'application/json')
     .json(result)
   } catch (err) {
     logger.error('Unable to create user :: createUser, userController.js')
-    next(err)
+    return res.status(400).json({ message: err.message }); //replaced next(err) with this line
   }
 }
 
