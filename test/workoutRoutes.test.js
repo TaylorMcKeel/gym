@@ -5,7 +5,8 @@ const mongoose = require('mongoose');
 global.TextEncoder = require('util').TextEncoder;
 global.TextDecoder = require('util').TextDecoder;
 
-
+let userId;
+let workoutId;
 let server;
 let port =0;
 let token;
@@ -56,5 +57,23 @@ describe('Test GET request for all workouts', () => {
 
     expect(response.status).toBe(200);
   });
+
+  //delete all
+  test('DELETE /api/workout should return 202', async () => {
+    const response = await request(server)
+      .delete('/api/workout')
+      .set('Cookie', `token=${token}`);
+
+    expect(response.status).toBe(202);
+  });
+  //create
+
+  //get user
+
+  //get one
+
+  //update
+
+  //delete one
 });
 
