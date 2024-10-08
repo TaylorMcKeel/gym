@@ -22,26 +22,24 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
- 
+
   await mongoose.connection.close();
+
   await new Promise((resolve, reject) => {
     server.close((err) => {
-      if (err) return reject(err);
+      if (err) return reject(err); 
       console.log('Test server closed');
       resolve(); 
     });
   });
 });
 
-describe('Test GET requests for All Users', () => {
-  test('GET /api/user should return 200', async () => {
-    const response = await request(server).get('/api/user');
+describe('Test GET request for all workouts', () => {
+  test('GET /api/workout should return 200', async () => {
+    const response = await request(server).get('/api/workout');
     expect(response.status).toBe(200);
   });
-
- 
 });
 
-
- 
-
+//I keep getting errors with port 5002 being in use. Tried debugging with no luck. Any thoughts?
+//How do I test protected routes? 
