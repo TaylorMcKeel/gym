@@ -1,12 +1,13 @@
 const request = require('supertest');
-const app = require('../server');
+const jwt = require('jsonwebtoken');
 const {startServer} = require('../server');
 const mongoose = require('mongoose');
 const User = require('../models/User');
 global.TextEncoder = require('util').TextEncoder;
 global.TextDecoder = require('util').TextDecoder;
 
-// let userID;
+let userId;
+let token;
 let testUser;
 let server;
 let port =0;
@@ -21,6 +22,17 @@ beforeAll(async () => {
   server = startServer(port);
   port = server.address().port;
   console.log(`Test server is running on port ${port}`);
+
+  testUser = await User.create({
+    userName: 'testUser',
+    firstName: 'Test',
+    lastName: 'User',
+    email: 'test@user.com',
+    password: 'Password123.'
+  });
+  userId = testUser._id;
+  token = jwt.sign(testUser.toObject(), process.env.JWT_SECRET, { expiresIn: '1d' });
+  
 });
 
 afterAll(async () => {
@@ -48,7 +60,16 @@ describe('Test requests for Users', () => {
     const response = await request(server).delete('/api/user');
     expect(response.status).toBe(202);
   });
-  
+
+  test('GET /api/user/:userId should return 200', async () => {
+    const response = await request(server)
+      .get(`/api/user/${userId}`)
+      .set('Cookie', `token=${token}`)
+    
+    expect(response.status).toBe(200);
+   
+  });
+
   test('POST /api/user should return 201', async () => {
     testUser = {
       userName: 'testUser',
@@ -63,7 +84,7 @@ describe('Test requests for Users', () => {
     
       // userID = response.body._id;
     // testUser = response.body;
-    // console.log(testUser);
+    
     expect(response.status).toBe(201);
     })
 
