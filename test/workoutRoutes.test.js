@@ -32,6 +32,7 @@ beforeAll(async () => {
     email: 'test@user.com',
     password: 'password'
   }
+  userId = testUser._id;
   token = jwt.sign(testUser, process.env.JWT_SECRET, { expiresIn: '1d' });
 
 });
@@ -58,7 +59,7 @@ describe('Test GET request for all workouts', () => {
     expect(response.status).toBe(200);
   });
 
-  //delete all
+  
   test('DELETE /api/workout should return 202', async () => {
     const response = await request(server)
       .delete('/api/workout')
@@ -66,11 +67,36 @@ describe('Test GET request for all workouts', () => {
 
     expect(response.status).toBe(202);
   });
-  //create
+  
 
-  //get user
+  test('POST /api/workout should return 200', async () => {
+    const response = await request(server)
+      .post('/api/workout')
+      .set('Cookie', `token=${token}`)
+      .send({
+        title: 'Test Workout',
+        creator: userId
+      });
 
-  //get one
+    workoutId = response.body._id
+    expect(response.status).toBe(200);
+  });
+  
+  test('GET /api/workout/uuserWorkouts should return 200', async () => {
+    const response = await request(server)
+      .get('/api/workout/userWorkouts')
+      .set('Cookie', `token=${token}`)
+
+    expect(response.status).toBe(200);
+  });
+  
+  test('GET /api/workout/:id should return 200', async () => {
+    const response = await request(server)
+      .get(`/api/workout/${workoutId}`)
+      .set('Cookie', `token=${token}`);
+
+    expect(response.status).toBe(200);
+  });
 
   //update
 
