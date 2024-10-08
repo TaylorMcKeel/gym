@@ -88,6 +88,14 @@ describe('Test requests for exercises', () => {
     expect(response.status).toBe(200);
   });
 
+  test('GET /api/exercise/:id should return 200', async () => {
+    const response = await request(server)
+      .get(`/api/exercise/${exerciseId}`)
+      .set('Cookie', `token=${token}`);
+
+    expect(response.status).toBe(200);
+  });
+
   test('PUT /api/exercise/:id should return 200', async () => {
     const response = await request(server)
       .put(`/api/exercise/${exerciseId}`)
@@ -99,6 +107,14 @@ describe('Test requests for exercises', () => {
       });
 
     expect(response.status).toBe(200);
+  });
+
+  test('DELETE /api/exercise/:id should return 202', async () => {
+    const response = await request(server)
+      .delete(`/api/exercise/${exerciseId}`)
+      .set('Cookie', `token=${token}`);
+
+    expect(response.status).toBe(202);
   });
 
 });
