@@ -6,7 +6,7 @@ const User = require('../models/User');
 global.TextEncoder = require('util').TextEncoder;
 global.TextDecoder = require('util').TextDecoder;
 
-// let testUser;
+// let userID;
 let server;
 let port =0;
 
@@ -16,7 +16,7 @@ beforeAll(async () => {
       useUnifiedTopology: true,
   });
   await User.deleteMany(); //what is a btter way to set this up without having to erase the database? commented code wwas attempt
-
+//how does being logged in play into this
   server = startServer(port);
   port = server.address().port;
   console.log(`Test server is running on port ${port}`);
@@ -37,11 +37,13 @@ afterAll(async () => {
 });
 
 describe('Test requests for Users', () => {
+ 
   test('GET /api/user should return 200', async () => {
     const response = await request(server).get('/api/user');
     expect(response.status).toBe(200);
   });
 
+  
   test('POST /api/user should return 201', async () => {
     const testUser = {
       userName: 'testUser',
@@ -53,11 +55,15 @@ describe('Test requests for Users', () => {
     const response = await request(server)
       .post('/api/user')
       .send(testUser);
-      
+    
+      // userID = response.body._id;
     // testUser = response.body;
     // console.log(testUser);
     expect(response.status).toBe(201);
     })
+
+  
+   
 });
 
 
