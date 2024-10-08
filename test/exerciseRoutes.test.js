@@ -57,11 +57,25 @@ describe('Test requests for exercises', () => {
     expect(response.status).toBe(200);
   });
 
+  test('POST /api/exercise should return 200', async () => {
+    const response = await request(server)
+      .post('/api/exercise')
+      .set('Cookie', `token=${token}`)
+      .send({
+        title: 'Test Exercise',
+        category: 'ARMS',
+        creator: userId
+      });
+
+    expect(response.status).toBe(201);
+  });
+
   test('GET /api/exercise/userExercises should return 200', async () => {
     const response = await request(server)
       .get('/api/exercise/userExercises')
-      .set('Cookie', `token=${token}`);
+      .set('Cookie', `token=${token}`)
 
     expect(response.status).toBe(200);
   });
+
 });

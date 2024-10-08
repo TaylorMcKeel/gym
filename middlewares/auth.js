@@ -12,8 +12,8 @@ const protectedRoute = async( req, res, next)=>{
   }
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET)
-    req.user = await User.findById(decoded.id)
-    req.userId = decoded.id
+    req.user = await User.findById(decoded._id)
+    req.userId = decoded._id
     next()
   } catch (err) {
     throw new Error(`Error processing the jwt token in protected route middleware. Error: ${err}`)

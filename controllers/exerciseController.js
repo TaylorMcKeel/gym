@@ -57,7 +57,7 @@ const createExercise = async(req,res,next)=>{
     const result = await Exercise.create(req.body)
     logger.info(`Created new exercise with id of ${result._id} :: createExercise, exercisecontroller.js`)
     res
-    .status(200)
+    .status(201)
     .setHeader('Content-Type','application/json')
     .json(result)
   } catch (err) {
