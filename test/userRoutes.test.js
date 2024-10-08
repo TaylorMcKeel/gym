@@ -60,7 +60,7 @@ describe('Test requests for Users', () => {
     const response = await request(server).delete('/api/user');
     expect(response.status).toBe(202);
   });
-
+//seems to be skipping this test
   test('GET /api/user/:userId should return 200', async () => {
     const response = await request(server)
       .get(`/api/user/${userId}`)
