@@ -7,6 +7,7 @@ global.TextEncoder = require('util').TextEncoder;
 global.TextDecoder = require('util').TextDecoder;
 
 // let userID;
+let testUser;
 let server;
 let port =0;
 
@@ -43,9 +44,13 @@ describe('Test requests for Users', () => {
     expect(response.status).toBe(200);
   });
 
+  test('DELETE /api/user should return 202', async () => {
+    const response = await request(server).delete('/api/user');
+    expect(response.status).toBe(202);
+  });
   
   test('POST /api/user should return 201', async () => {
-    const testUser = {
+    testUser = {
       userName: 'testUser',
       firstName: 'Test',
       lastName: 'User',
@@ -62,7 +67,36 @@ describe('Test requests for Users', () => {
     expect(response.status).toBe(201);
     })
 
-  
+  test('POST /api/user/login should return 200 for valid password', async () => {
+    const response = await request(server)
+      .post('/api/user/login')
+      .send({
+        email: testUser.email,
+        password: testUser.password
+      });
+    expect(response.status).toBe(200);
+    
+  });
+
+  test('POST /api/user/login should return 401 for invalid password', async () => {
+    const response = await request(server)
+      .post('/api/user/login')
+      .send({
+        email: testUser.email,
+        password: 'wrongpassword'
+      });
+    expect(response.status).toBe(401);
+  });
+
+  test('POST /api/user/login should return 401 for invalid email', async () => {
+    const response = await request(server)
+      .post('/api/user/login')
+      .send({
+        email: 'wrong@email.com',
+        password: 'wrongpassword'
+      });
+    expect(response.status).toBe(401);
+  });
    
 });
 

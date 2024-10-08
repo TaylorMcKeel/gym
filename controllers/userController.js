@@ -132,12 +132,15 @@ const login = async (req,res,next)=>{
   const user = await User.findOne({email}).select('+passowrd') //finds user based on email and only returns the password
 
   if(!user){
-    throw new Error('User does not exist')
+    return res.status(401).json({ message: 'User does not exist' });
+    // throw new Error('User does not exist')
   }
 
   const passwordsMatch = await user.matchPasswords(password)
   if(!passwordsMatch){
-    throw new Error('Password is incorrect')
+    
+    return res.status(401).json({ message: 'Password is incorrect' });
+    // throw new Error('Password is incorrect')
   }
 
   sendTokenResponse(user, 200, res)
