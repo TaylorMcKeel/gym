@@ -43,28 +43,39 @@ const Workouts = ()=>{
   },[])
   
   const navigateWorkout = (id) =>{
-    navigate(`/workouts/`)
+    navigate(`/workouts/${id}`)
   }
   const navigateNewWorkout=()=>{
     navigate('/newWorkout')
   }
-  return(
-    <div>
-      <h1>Your Workouts</h1>
-      <button onClick={navigateNewWorkout}>Add New Workout</button>
-      <ul>
-        {workoutsData.workouts.forEach((workout)=>{
-          return(
-            <li key={workout._id}>
-              <h3>Title: {workout.title}</h3>
-              <p>Duration: {workout.duration}</p>
-              <button onClick = {()=>navigateWorkout(workout._id)}>See More</button>
-            </li>
-          )
-        })}
-      </ul>
-    </div>
-  )
+  if(!workoutsData.workouts.length){
+    return(
+      <div>
+        <h1>Your Workouts</h1>
+        <button onClick={navigateNewWorkout}>Add New Workout</button>
+        <p>No workouts found. Add a new workout to get started.</p>
+      </div>
+    )
+  }else{
+    return(
+      <div>
+        <h1>Your Workouts</h1>
+        <button onClick={navigateNewWorkout}>Add New Workout</button>
+        <ul>
+          {workoutsData.workouts.map((workout)=>{
+            return(
+              <li key={workout._id}>
+                <h3>Title: {workout.title}</h3>
+                <p>Duration: {workout.duration}</p>
+                <button onClick = {()=>navigateWorkout(workout._id)}>See More</button>
+              </li>
+            )
+          })}
+        </ul>
+      </div>
+    )
+
+  }
 }
 
 

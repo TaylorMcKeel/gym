@@ -40,13 +40,24 @@ app.get('*', (req, res) => {
 const PORT = process.env.PORT || 5001
 
 //makes server go live
-const server = app.listen(PORT, ()=>{
-  console.log(`Server is listening on PORT: ${PORT}`)
-})
+let server;
+const startServer = (port)=>{
+  server = app.listen(port, ()=>{
+    console.log(`Server is listening on PORT: ${port}`)
+  })
+  return server
 
+}
+
+if (require.main === module) {
+  const PORT = process.env.PORT || 5001;
+  startServer(PORT);
+}
 //catches any unhandled objections that arent caught by middleware
+//how to give acccess to server below
 process.on('unhandledRejection', (err, promise)=>{
   console.log(`Error: ${err.message}`)
   server.close(()=> process.exit(1))
 })
 
+module.exports = {app, startServer};

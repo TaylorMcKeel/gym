@@ -12,7 +12,7 @@ const NavBar = ()=>{
   },[])
   //To-Do: fix the routes for where the workouts and exercises for a user live.
   const navigateHome=()=>{
-    navigate('/')
+    navigate('/home')
   }
   const navigateWorkouts=()=>{
     navigate('/workouts')

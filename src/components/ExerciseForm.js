@@ -8,7 +8,8 @@ const ExerciseForm = ()=>{
     title: '',
     category: '',
     workout: '',
-    allWorkouts: []
+    allWorkouts: [],
+    user: {},
   }
   const [exerciseData, setExerciseData]= useState(initialExerciseData)
 
@@ -16,10 +17,13 @@ const ExerciseForm = ()=>{
   useEffect(()=>{
     const getWorkouts = async()=>{
       try {
-        const res = await axios.get('/api/workout')
-        setExerciseData(exerciseData=>({
+        const workoutRes = await axios.get('/api/workout')
+        const userRes = await axios.get('/api/user/loggedInUser')
+       
+        setExerciseData(exerciseData =>({
           ...exerciseData,
-          allWorkouts: res.data,
+          allWorkouts: workoutRes.data,
+          user: userRes.data,
         }))
       } catch (err) {
         const errorMessage = `getWorkouts :: ExerciseForm.js - Error when fetching all workouts from backend API. Error: ${err}.`
@@ -34,9 +38,10 @@ const ExerciseForm = ()=>{
   const addExercise = async()=>{
     try {
       await axios.post('/api/exercise',{
-        "title": exerciseTitle,
-        "category": category,
-        "workout": workout,
+        "title": exerciseData.title,
+        "category": exerciseData.category,
+        "workout": exerciseData.workout,
+        "creator": exerciseData.user._id
       })
     } catch (err) {
       const errorMessage = `addExercise :: ExerciseForm.js - Error when posting new exercise to backend. Error: ${err}.`
